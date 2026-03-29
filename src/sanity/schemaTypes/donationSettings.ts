@@ -26,6 +26,13 @@ export const donationSettingsType = defineType({
       type: "number",
       validation: (rule) => rule.required().positive(),
     }),
+    defineField({
+      name: "isDonationSectionVisible",
+      title: "Show Donation Section",
+      type: "boolean",
+      initialValue: true,
+      description: "Toggle visibility of the donation section on the website",
+    }),
   ],
   preview: {
     prepare: () => ({ title: "Donation Settings" }),

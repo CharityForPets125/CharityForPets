@@ -27,7 +27,7 @@ export default async function SignupPage({ searchParams }: SignupPageProps) {
 
   return (
     <main className="mx-auto w-full max-w-xl px-4 py-12 sm:px-6 lg:px-8">
-      <h1 className="text-4xl font-bold tracking-tight text-amber-950">Create Account</h1>
+      <h1 className="text-3xl font-bold tracking-tight text-amber-950 sm:text-4xl">Create Account</h1>
       <p className="mt-3 text-amber-900/80">Create your account to donate, shop, and watch your impact grow.</p>
       <div className="mt-8 rounded-3xl border border-amber-900/10 bg-white p-6 shadow-sm">
         {query.error ? <p className="mb-4 rounded-2xl bg-red-50 px-4 py-3 text-sm text-red-700">{query.error}</p> : null}

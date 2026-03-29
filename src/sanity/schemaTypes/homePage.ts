@@ -5,8 +5,15 @@ export const homePageType = defineType({
   title: "Home Page",
   type: "document",
   fields: [
-    defineField({ name: "heroTitle", type: "string", validation: (rule) => rule.required() }),
-    defineField({ name: "heroSubtitle", type: "text" }),
+    defineField({
+      name: "heroTitle",
+      type: "string",
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "heroSubtitle",
+      type: "string",
+    }),
     defineField({ name: "heroImage", type: "image", options: { hotspot: true } }),
     defineField({
       name: "impactCounters",
@@ -21,10 +28,22 @@ export const homePageType = defineType({
         }),
       ],
     }),
-    defineField({ name: "aboutTitle", type: "string" }),
-    defineField({ name: "aboutText", type: "text" }),
-    defineField({ name: "ctaTitle", type: "string" }),
-    defineField({ name: "ctaText", type: "text" }),
+    defineField({
+      name: "aboutTitle",
+      type: "string",
+    }),
+    defineField({
+      name: "aboutText",
+      type: "text",
+    }),
+    defineField({
+      name: "ctaTitle",
+      type: "string",
+    }),
+    defineField({
+      name: "ctaText",
+      type: "text",
+    }),
     defineField({
       name: "testimonials",
       type: "array",
@@ -37,6 +56,42 @@ export const homePageType = defineType({
           ],
         }),
       ],
+    }),
+    defineField({
+      name: "showHeroSection",
+      type: "boolean",
+      initialValue: true,
+      title: "Show Hero Section",
+    }),
+    defineField({
+      name: "showImpactCounters",
+      type: "boolean",
+      initialValue: true,
+      title: "Show Impact Counters Section",
+    }),
+    defineField({
+      name: "showAboutSection",
+      type: "boolean",
+      initialValue: true,
+      title: "Show About Section",
+    }),
+    defineField({
+      name: "showCTASection",
+      type: "boolean",
+      initialValue: true,
+      title: "Show CTA Section",
+    }),
+    defineField({
+      name: "showTestimonials",
+      type: "boolean",
+      initialValue: true,
+      title: "Show Testimonials",
+    }),
+    defineField({
+      name: "showFeaturedProducts",
+      type: "boolean",
+      initialValue: true,
+      title: "Show Featured Products",
     }),
   ],
   preview: {

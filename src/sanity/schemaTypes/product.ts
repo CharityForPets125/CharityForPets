@@ -19,7 +19,11 @@ export const productType = defineType({
   title: "Product",
   type: "document",
   fields: [
-    defineField({ name: "name", type: "string", validation: (rule) => rule.required() }),
+    defineField({
+      name: "name",
+      type: "localizedString",
+      validation: (rule) => rule.required(),
+    }),
     defineField({
       name: "slug",
       type: "slug",
@@ -38,7 +42,10 @@ export const productType = defineType({
     }),
     defineField({ name: "images", type: "array", of: [{ type: "image", options: { hotspot: true } }] }),
     defineField({ name: "price", type: "number", validation: (rule) => rule.required().positive() }),
-    defineField({ name: "description", type: "text" }),
+    defineField({
+      name: "description",
+      type: "localizedText",
+    }),
     defineField({ name: "category", type: "string" }),
     defineField({ name: "stripePriceId", type: "string", validation: (rule) => rule.required() }),
     defineField({ name: "inStock", type: "boolean", initialValue: true }),

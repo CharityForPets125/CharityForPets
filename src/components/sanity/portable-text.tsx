@@ -10,7 +10,7 @@ export function PortableTextRenderer({ value }: Props) {
   }
 
   return (
-    <div className="prose prose-amber max-w-none">
+    <div className="prose prose-amber prose-sm max-w-none break-words sm:prose-base">
       <PortableText value={value} />
     </div>
   );

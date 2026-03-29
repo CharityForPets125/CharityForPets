@@ -13,7 +13,7 @@ export default async function ContactPage() {
 
   return (
     <main className="mx-auto w-full max-w-4xl px-4 py-10 sm:px-6 lg:px-8">
-      <h1 className="text-4xl font-bold tracking-tight text-amber-950">{page?.title || "Contact"}</h1>
+      <h1 className="text-3xl font-bold tracking-tight text-amber-950 sm:text-4xl">{page?.title || "Contact"}</h1>
       <section className="mt-8">
         <PortableTextRenderer value={page?.body as never} />
       </section>

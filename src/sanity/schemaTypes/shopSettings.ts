@@ -11,6 +11,13 @@ export const shopSettingsType = defineType({
       type: "number",
       validation: (rule) => rule.required().positive(),
     }),
+    defineField({
+      name: "isShopSectionVisible",
+      title: "Show Shop Section",
+      type: "boolean",
+      initialValue: true,
+      description: "Toggle visibility of the shop section on the website",
+    }),
   ],
   preview: {
     prepare: () => ({ title: "Shop Settings" }),

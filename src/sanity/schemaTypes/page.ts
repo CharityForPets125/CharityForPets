@@ -19,7 +19,11 @@ export const pageType = defineType({
   title: "Page",
   type: "document",
   fields: [
-    defineField({ name: "title", type: "string", validation: (rule) => rule.required() }),
+    defineField({
+      name: "title",
+      type: "localizedString",
+      validation: (rule) => rule.required(),
+    }),
     defineField({
       name: "slug",
       type: "slug",
@@ -42,5 +46,17 @@ export const pageType = defineType({
       of: [{ type: "block" }],
     }),
     defineField({ name: "heroImage", type: "image", options: { hotspot: true } }),
+    defineField({
+      name: "showHeroImage",
+      type: "boolean",
+      initialValue: true,
+      title: "Show Hero Image",
+    }),
+    defineField({
+      name: "showBody",
+      type: "boolean",
+      initialValue: true,
+      title: "Show Page Content",
+    }),
   ],
 });

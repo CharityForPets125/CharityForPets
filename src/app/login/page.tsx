@@ -30,7 +30,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
 
   return (
     <main className="mx-auto w-full max-w-xl px-4 py-12 sm:px-6 lg:px-8">
-      <h1 className="text-4xl font-bold tracking-tight text-amber-950">Log In</h1>
+      <h1 className="text-3xl font-bold tracking-tight text-amber-950 sm:text-4xl">Log In</h1>
       <p className="mt-3 text-amber-900/80">Welcome back. Sign in to track your impact and manage your donations.</p>
       <div className="mt-8 rounded-3xl border border-amber-900/10 bg-white p-6 shadow-sm">
         {error ? <p className="mb-4 rounded-2xl bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p> : null}

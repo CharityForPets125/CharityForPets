@@ -5,9 +5,16 @@ export const siteSettingsType = defineType({
   title: "Site Settings",
   type: "document",
   fields: [
-    defineField({ name: "siteName", type: "string", validation: (rule) => rule.required() }),
+    defineField({
+      name: "siteName",
+      type: "localizedString",
+      validation: (rule) => rule.required(),
+    }),
     defineField({ name: "logo", type: "image", options: { hotspot: true } }),
-    defineField({ name: "footerText", type: "text" }),
+    defineField({
+      name: "footerText",
+      type: "localizedText",
+    }),
     defineField({ name: "contactEmail", type: "string" }),
     defineField({
       name: "socialLinks",

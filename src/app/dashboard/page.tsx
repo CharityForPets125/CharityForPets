@@ -62,13 +62,13 @@ export default async function DashboardPage() {
 
   return (
     <main className="mx-auto w-full max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
-      <div className="flex flex-wrap items-start justify-between gap-4">
+      <div className="flex flex-col items-start justify-between gap-4 sm:flex-row">
         <div>
-          <h1 className="text-4xl font-bold tracking-tight text-amber-950">Your Dashboard</h1>
+          <h1 className="text-3xl font-bold tracking-tight text-amber-950 sm:text-4xl">Your Dashboard</h1>
           <p className="mt-3 text-amber-900/80">Signed in as {user.email}</p>
         </div>
         <form action={signOutAction}>
-          <button type="submit" className="inline-flex rounded-full border border-amber-900/20 px-5 py-2 text-sm font-semibold text-amber-900 hover:bg-amber-100">
+          <button type="submit" className="inline-flex w-full justify-center rounded-full border border-amber-900/20 px-5 py-2 text-sm font-semibold text-amber-900 hover:bg-amber-100 sm:w-auto">
             Sign Out
           </button>
         </form>
@@ -94,7 +94,7 @@ export default async function DashboardPage() {
           <h2 className="text-xl font-bold text-amber-950">Recent Donations</h2>
           <ul className="mt-4 space-y-3">
             {(donations ?? []).map((donation) => (
-              <li key={donation.id} className="flex items-center justify-between rounded-2xl bg-amber-50/60 px-4 py-3 text-sm">
+              <li key={donation.id} className="flex flex-col gap-1 rounded-2xl bg-amber-50/60 px-4 py-3 text-sm sm:flex-row sm:items-center sm:justify-between">
                 <span className="text-amber-900">{formatDate(donation.created_at)}</span>
                 <span className="font-semibold text-amber-950">{formatMoney(donation.amount_cents)}</span>
               </li>
@@ -107,7 +107,7 @@ export default async function DashboardPage() {
           <h2 className="text-xl font-bold text-amber-950">Recent Orders</h2>
           <ul className="mt-4 space-y-3">
             {(orders ?? []).map((order) => (
-              <li key={order.id} className="flex items-center justify-between rounded-2xl bg-amber-50/60 px-4 py-3 text-sm">
+              <li key={order.id} className="flex flex-col gap-2 rounded-2xl bg-amber-50/60 px-4 py-3 text-sm sm:flex-row sm:items-center sm:justify-between">
                 <div>
                   <p className="text-amber-900">{formatDate(order.created_at)}</p>
                   <p className="text-xs uppercase tracking-wide text-amber-700/80">{order.status}</p>

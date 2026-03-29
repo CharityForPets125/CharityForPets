@@ -26,17 +26,17 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
   return (
     <main className="mx-auto w-full max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
-      <div className="grid gap-8 md:grid-cols-2">
+      <div className="grid gap-6 sm:gap-8 md:grid-cols-2">
         <div>
           {product.images?.[0] ? (
             <SanityImage image={product.images[0]} alt={product.name || "Product image"} className="rounded-3xl object-cover" priority />
           ) : null}
         </div>
         <div>
-          <h1 className="text-4xl font-bold tracking-tight text-amber-950">{product.name}</h1>
-          <p className="mt-4 text-lg text-amber-900/80">{product.description}</p>
+          <h1 className="text-3xl font-bold tracking-tight text-amber-950 sm:text-4xl">{product.name}</h1>
+          <p className="mt-4 text-base text-amber-900/80 sm:text-lg">{product.description}</p>
           <p className="mt-6 text-2xl font-bold text-amber-950">${product.price}</p>
-          <div className="mt-6 max-w-xs">
+          <div className="mt-6 w-full max-w-xs">
             <CheckoutButton
               priceId={product.stripePriceId}
               mode="payment"

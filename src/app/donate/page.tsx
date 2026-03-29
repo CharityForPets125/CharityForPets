@@ -12,14 +12,24 @@ type DonationTier = {
 
 type DonationSettings = {
   presetAmounts?: DonationTier[];
+  isDonationSectionVisible?: boolean;
 };
 
 export default async function DonatePage() {
   const settings = await fetchSanity<DonationSettings | null>(DONATION_SETTINGS_QUERY, {}, null);
 
+  if (settings?.isDonationSectionVisible === false) {
+    return (
+      <main className="mx-auto w-full max-w-4xl px-4 py-10 sm:px-6 lg:px-8">
+        <h1 className="text-3xl font-bold tracking-tight text-amber-950 sm:text-4xl">Donate</h1>
+        <p className="mt-3 text-amber-900/80">The donation section is currently unavailable. Please check back soon.</p>
+      </main>
+    );
+  }
+
   return (
     <main className="mx-auto w-full max-w-4xl px-4 py-10 sm:px-6 lg:px-8">
-      <h1 className="text-4xl font-bold tracking-tight text-amber-950">Donate</h1>
+      <h1 className="text-3xl font-bold tracking-tight text-amber-950 sm:text-4xl">Donate</h1>
       <p className="mt-3 text-amber-900/80">Choose an amount to support stray animals.</p>
       <section className="mt-8 grid gap-4 sm:grid-cols-2">
         {settings?.presetAmounts?.map((tier, idx) => (
