@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { LanguageSwitcher } from "./language-switcher";
 
 import { fetchSanity } from "@/lib/sanity/client";
 import { NAVIGATION_QUERY, SITE_SETTINGS_QUERY } from "@/lib/sanity/queries";
@@ -77,6 +78,7 @@ export async function Header() {
             </Link>
           )}
         </nav>
+        <LanguageSwitcher />
       </div>
     </header>
   );
