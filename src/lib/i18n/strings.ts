@@ -123,13 +123,21 @@ export const strings = {
   },
 } as const;
 
-export function getString(locale: Locale, path: string, defaultValue = ""): string {
-  const keys = path.split(".");
-  let current: any = strings[locale];
+function getNestedValue(source: unknown, keys: string[]): string | undefined {
+  let current: unknown = source;
 
   for (const key of keys) {
-    current = current?.[key];
+    if (typeof current !== "object" || current === null || !(key in current)) {
+      return undefined;
+    }
+
+    current = (current as Record<string, unknown>)[key];
   }
 
-  return current ?? strings.en[path as any] ?? defaultValue;
+  return typeof current === "string" ? current : undefined;
+}
+
+export function getString(locale: Locale, path: string, defaultValue = ""): string {
+  const keys = path.split(".");
+  return getNestedValue(strings[locale], keys) ?? getNestedValue(strings.en, keys) ?? defaultValue;
 }
