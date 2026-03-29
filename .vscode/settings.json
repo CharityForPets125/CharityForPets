@@ -1,0 +1,48 @@
+{
+    "[typescript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[json]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "editor.formatOnSave": true,
+    "github.copilot.advanced": {
+        "debug.testOverridesMcpSettings": false,
+        "debug.testBrowserOnly": false,
+        "debug.testLocalContentOnly": false
+    },
+    "modelcontextprotocol": {
+        "servers": {
+            "filesystem": {
+                "command": "npx",
+                "args": [
+                    "-y",
+                    "@modelcontextprotocol/server-filesystem",
+                    "d:/CharityApp"
+                ],
+                "env": {}
+            },
+            "supabase": {
+                "command": "npx",
+                "args": [
+                    "-y",
+                    "@supabase/mcp-server-supabase@latest"
+                ],
+                "env": {
+                    "SUPABASE_ACCESS_TOKEN": "${env:SUPABASE_ACCESS_TOKEN}",
+                    "SUPABASE_PROJECT_REF": "${env:SUPABASE_PROJECT_REF}"
+                }
+            },
+            "stripe": {
+                "command": "npx",
+                "args": [
+                    "-y",
+                    "@stripe/mcp@latest"
+                ],
+                "env": {
+                    "STRIPE_SECRET_KEY": "${env:STRIPE_SECRET_KEY}"
+                }
+            }
+        }
+    }
+}

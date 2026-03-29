@@ -1,36 +1,58 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Pet Charity App
 
-## Getting Started
+Full-stack pet charity platform with CMS-managed content, Stripe commerce, Supabase backend, and MCP-ready tooling.
 
-First, run the development server:
+## Latest Stack (Current)
+
+- Next.js 16 (App Router)
+- React 19
+- Sanity 5 + Next Studio integration
+- Supabase Auth/DB/Storage (`@supabase/supabase-js` + `@supabase/ssr`)
+- Stripe Checkout + Subscriptions + Customer Portal
+- Tailwind CSS v4 + shadcn/ui
+- Resend for transactional email
+
+## Local Setup
+
+1. Install dependencies:
+
+```bash
+npm install
+```
+
+2. Copy environment variables:
+
+```bash
+cp .env.example .env.local
+```
+
+3. Fill all required keys in `.env.local`.
+
+4. Start development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+5. Open `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## MCP Integration
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Workspace MCP config is pre-created at `.vscode/mcp.json` with:
 
-## Learn More
+- Filesystem MCP server (scoped to this repo)
+- Supabase MCP server
+- Stripe MCP server
 
-To learn more about Next.js, take a look at the following resources:
+Set these shell/user environment variables before launching VS Code so MCP servers can authenticate:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- `SUPABASE_ACCESS_TOKEN`
+- `SUPABASE_PROJECT_REF`
+- `STRIPE_SECRET_KEY`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Validation Commands
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+npm run lint
+npm run build
+```
