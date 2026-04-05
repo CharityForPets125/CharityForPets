@@ -1,58 +1,31 @@
 import Link from "next/link";
 
-import { SanityImage } from "@/components/sanity/sanity-image";
 import { fetchSanity } from "@/lib/sanity/client";
-import { HOME_PAGE_QUERY, PRODUCTS_QUERY, SHOP_SETTINGS_QUERY, DONATION_SETTINGS_QUERY } from "@/lib/sanity/queries";
+import { HOME_PAGE_QUERY, PRODUCTS_QUERY } from "@/lib/sanity/queries";
 
-export default function Home() {
-    const { data: { homePage } } = fetchSanity(HOME_PAGE_QUERY);
-    const { data: { products } } = fetchSanity(PRODUCTS_QUERY);
-    const { data: { shopSettings } } = fetchSanity(SHOP_SETTINGS_QUERY);
-    const { data: { donationSettings } } = fetchSanity(DONATION_SETTINGS_QUERY);
+export default async function Home() {
+    const homePage = await fetchSanity(HOME_PAGE_QUERY, {}, null);
+    const products = await fetchSanity(PRODUCTS_QUERY, {}, []);
 
     return (
-        <div>
-            <header>
-                <h1>Home Page</h1>
-            </header>
-            <main>
-                <section>
-                    <h2>Home Page Content</h2>
-                    <p>{homePage?.content}</p>
-                </section>
-                <section>
-                    <h2>Products</h2>
-                    <ul>
-                        {products?.map((product) => (
-                            <li key={product._id}>
-                                <Link href={`/products/${product._id}`}>
-                                    {product.name}
-                                </Link>
-                            </li>
-                        ))}
-                    </ul>
-                </section>
-                <section>
-                    <h2>Shop Settings</h2>
-                    <ul>
-                        {shopSettings?.map((setting) => (
-                            <li key={setting._id}>
-                                {setting.name}: {setting.value}
-                            </li>
-                        ))}
-                    </ul>
-                </section>
-                <section>
-                    <h2>Donation Settings</h2>
-                    <ul>
-                        {donationSettings?.map((setting) => (
-                            <li key={setting._id}>
-                                {setting.name}: {setting.value}
-                            </li>
-                        ))}
-                    </ul>
-                </section>
-            </main>
-        </div>
+        <main className="mx-auto w-full max-w-4xl px-4 py-10">
+            <h1 className="text-3xl font-bold mb-4">Home Page</h1>
+            <section>
+                <h2 className="text-xl font-semibold">Home Content</h2>
+                <p>{homePage ? JSON.stringify(homePage) : "No content"}</p>
+            </section>
+            <section className="mt-8">
+                <h2 className="text-xl font-semibold">Products</h2>
+                <ul>
+                    {products.map((product: any) => (
+                        <li key={product._id}>
+                            <Link href={`/products/${product._id}`}>
+                                {product.name}
+                            </Link>
+                        </li>
+                    ))}
+                </ul>
+            </section>
+        </main>
     );
 }
