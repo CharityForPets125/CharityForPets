@@ -33,24 +33,29 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
     return (
         <main className="mx-auto w-full max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
-            <div className="grid gap-6 sm:gap-8 md:grid-cols-2">
+            <div className="grid grid-cols-1 gap-6 sm:gap-8 md:grid-cols-2">
                 <div>
                     {product.images?.[0] ? (
-                        <SanityImage image={product.images[0]} alt={product.name || t("product.productImage")} className="rounded-3xl object-cover" priority />
+                        <SanityImage
+                            image={product.images[0]}
+                            alt={product.name || t("product.productImage")}
+                            className="aspect-square w-full rounded-3xl object-cover sm:aspect-auto"
+                            priority
+                        />
                     ) : null}
                 </div>
-                <div>
+                <div className="flex flex-col justify-center">
                     <h1 className="text-3xl font-bold tracking-tight text-amber-950 sm:text-4xl">{product.name}</h1>
                     <p className="mt-4 text-base text-amber-900/80 sm:text-lg">{product.description}</p>
                     <p className="mt-6 text-2xl font-bold text-amber-950">${product.price}</p>
-                    <div className="mt-6 w-full max-w-xs">
+                    <div className="mt-6 w-full">
                         <CheckoutButton
                             priceId={product.stripePriceId}
                             mode="payment"
                             source="shop"
                             quantity={1}
                             cancelPath={`/shop/${slug}`}
-                            className="w-full rounded-full bg-amber-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-amber-700 disabled:cursor-not-allowed disabled:opacity-60"
+                            className="w-full min-h-[44px] rounded-full bg-amber-600 px-5 py-3 text-base font-semibold text-white hover:bg-amber-700 disabled:cursor-not-allowed disabled:opacity-60 sm:max-w-xs"
                             disabledLabel={t("shop.buyNowUnavailable")}
                         >
                             {t("shop.buyNow")}

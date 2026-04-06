@@ -49,7 +49,7 @@ export function NewsletterSignup() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex gap-2">
+    <form onSubmit={handleSubmit} className="relative flex flex-col gap-2 sm:flex-row sm:items-center">
       <label htmlFor="newsletter-email" className="sr-only">
         {t("newsletter.title")}
       </label>
@@ -60,17 +60,17 @@ export function NewsletterSignup() {
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         placeholder={t("newsletter.emailPlaceholder")}
-        className="flex-1 rounded-full border border-amber-900/20 bg-white px-4 py-2 text-sm text-amber-950 outline-none ring-0 placeholder:text-amber-900/40 focus:border-amber-600"
+        className="min-h-[44px] flex-1 rounded-full border border-amber-900/20 bg-white px-4 py-2.5 text-sm text-amber-950 outline-none ring-0 placeholder:text-amber-900/40 focus:border-amber-600"
       />
       <button
         type="submit"
         disabled={status === "subscribing"}
-        className="rounded-full bg-amber-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-amber-700 disabled:cursor-not-allowed disabled:opacity-60"
+        className="min-h-[44px] rounded-full bg-amber-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-amber-700 disabled:cursor-not-allowed disabled:opacity-60"
       >
         {status === "subscribing" ? t("newsletter.subscribing") : t("newsletter.subscribe")}
       </button>
       {status === "error" && (
-        <p role="alert" className="absolute mt-1 text-xs text-red-700">
+        <p role="alert" className="text-xs text-red-700">
           {t("newsletter.error")}
         </p>
       )}

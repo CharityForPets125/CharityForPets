@@ -77,12 +77,12 @@ export default async function Home({ params }: HomePageProps) {
                             </p>
                             <div className="mt-7 flex flex-wrap gap-3">
                                 {donationSettings?.isDonationSectionVisible !== false && (
-                                    <Link href="/donate" className="inline-flex w-full justify-center rounded-full bg-amber-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-amber-700 sm:w-auto">
+                                    <Link href="/donate" className="inline-flex min-h-[44px] w-full items-center justify-center rounded-full bg-amber-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-amber-700 sm:w-auto">
                                         Donate Now
                                     </Link>
                                 )}
                                 {shopSettings?.isShopSectionVisible !== false && (
-                                    <Link href="/shop" className="inline-flex w-full justify-center rounded-full border border-amber-700/20 bg-white px-6 py-3 text-sm font-semibold text-amber-900 transition hover:bg-amber-100 sm:w-auto">
+                                    <Link href="/shop" className="inline-flex min-h-[44px] w-full items-center justify-center rounded-full border border-amber-700/20 bg-white px-6 py-3 text-sm font-semibold text-amber-900 transition hover:bg-amber-100 sm:w-auto">
                                         Shop for a Cause
                                     </Link>
                                 )}
@@ -97,7 +97,7 @@ export default async function Home({ params }: HomePageProps) {
                                     priority
                                 />
                             ) : (
-                                <div className="h-[360px] rounded-[2rem] border border-amber-900/10 bg-white/80" />
+                                <div className="h-[240px] w-full rounded-[2rem] border border-amber-900/10 bg-white/80 sm:h-[360px]" />
                             )}
                         </div>
                     </div>
@@ -105,7 +105,7 @@ export default async function Home({ params }: HomePageProps) {
             )}
 
             {homePage?.showImpactCounters !== false && homePage?.impactCounters && homePage.impactCounters.length > 0 && (
-                <section className="mx-auto mt-6 grid w-full max-w-6xl gap-4 px-4 sm:mt-8 sm:px-6 sm:grid-cols-3 lg:px-8">
+                <section className="mx-auto mt-6 grid w-full max-w-6xl grid-cols-1 gap-4 px-4 sm:mt-8 sm:grid-cols-3 sm:px-6 lg:px-8">
                     {homePage.impactCounters.map((counter, idx) => (
                         <article key={`${counter.label}-${idx}`} className="rounded-3xl border border-amber-900/10 bg-white p-6 shadow-sm">
                             <p className="text-3xl font-extrabold text-amber-950">{counter.value || 0}</p>
@@ -127,17 +127,17 @@ export default async function Home({ params }: HomePageProps) {
             {homePage?.showFeaturedProducts !== false && shopSettings?.isShopSectionVisible !== false && products.length > 0 && (
                 <section className="mx-auto mt-10 w-full max-w-6xl px-4 sm:mt-12 sm:px-6 lg:px-8">
                     <h2 className="font-heading text-2xl font-bold text-amber-950 sm:text-3xl">Featured Products</h2>
-                    <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                    <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                         {products.slice(0, 3).map((product) => (
                             <Link key={product._id} href={`/shop/${product.slug?.current}`} className="rounded-3xl border border-amber-900/10 bg-white p-5 shadow-sm transition hover:-translate-y-0.5">
                                 {product.images?.[0] ? (
                                     <SanityImage
                                         image={product.images[0]}
                                         alt={product.name || "Product image"}
-                                        className="h-44 w-full rounded-2xl object-cover"
+                                        className="h-36 w-full rounded-2xl object-cover sm:h-44"
                                     />
                                 ) : (
-                                    <div className="h-44 w-full rounded-2xl bg-amber-100" />
+                                    <div className="h-36 w-full rounded-2xl bg-amber-100 sm:h-44" />
                                 )}
                                 <h3 className="mt-4 text-lg font-semibold text-amber-950">{product.name}</h3>
                                 <p className="mt-2 font-bold text-amber-700">${product.price}</p>
@@ -152,7 +152,7 @@ export default async function Home({ params }: HomePageProps) {
                     <div className="rounded-[2rem] bg-amber-100 p-6 sm:p-8">
                         <h2 className="font-heading text-2xl font-bold text-amber-950 sm:text-3xl">{homePage?.ctaTitle || "Ready to Make a Difference?"}</h2>
                         <p className="mt-3 text-amber-900/80">{homePage?.ctaText || "Your support helps us care for stray animals and find them loving homes."}</p>
-                        <Link href="/donate" className="mt-6 inline-flex w-full justify-center rounded-full bg-emerald-700 px-6 py-3 text-sm font-semibold text-white transition hover:bg-emerald-800 sm:w-auto">
+                        <Link href="/donate" className="mt-6 inline-flex min-h-[44px] w-full items-center justify-center rounded-full bg-emerald-700 px-6 py-3 text-sm font-semibold text-white transition hover:bg-emerald-800 sm:w-auto">
                             Make an Impact
                         </Link>
                     </div>
@@ -162,7 +162,7 @@ export default async function Home({ params }: HomePageProps) {
             {homePage?.showTestimonials !== false && homePage?.testimonials && homePage.testimonials.length > 0 && (
                 <section className="mx-auto mt-10 w-full max-w-6xl px-4 sm:mt-12 sm:px-6 lg:px-8">
                     <h2 className="font-heading text-2xl font-bold text-amber-950 sm:text-3xl">Testimonials</h2>
-                    <div className="mt-6 grid gap-4 md:grid-cols-2">
+                    <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2">
                         {homePage.testimonials.map((item, idx) => (
                             <article key={`${item.author}-${idx}`} className="rounded-3xl border border-amber-900/10 bg-white p-6 shadow-sm">
                                 <p className="text-amber-900/90">&ldquo;{item.quote}&rdquo;</p>

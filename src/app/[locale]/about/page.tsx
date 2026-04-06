@@ -25,9 +25,13 @@ export default async function AboutPage({ params }: AboutPageProps) {
         <main className="mx-auto w-full max-w-4xl px-4 py-10 sm:px-6 lg:px-8">
             <h1 className="text-3xl font-bold tracking-tight text-amber-950 sm:text-4xl">{page?.title || t("about.defaultTitle")}</h1>
             {page?.heroImage ? (
-                <SanityImage image={page.heroImage} alt={page.title || t("about.aboutImage")} className="mt-6 rounded-3xl object-cover" />
+                <SanityImage
+                    image={page.heroImage}
+                    alt={page.title || t("about.aboutImage")}
+                    className="mt-6 aspect-video w-full rounded-3xl object-cover sm:mt-8 sm:aspect-[16/9]"
+                />
             ) : null}
-            <section className="mt-8">
+            <section className="mt-6 sm:mt-8">
                 <PortableTextRenderer value={page?.body as never} />
             </section>
         </main>

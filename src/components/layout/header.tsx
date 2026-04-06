@@ -67,29 +67,29 @@ export async function Header() {
         </Link>
 
         {/* Desktop navigation */}
-        <nav aria-label="Main" className="hidden items-center gap-4 sm:flex">
+        <nav aria-label="Main" className="hidden items-center gap-2 sm:flex">
           {links.map((link) => (
             <Link
               key={`${link.label}-${link.href}`}
               href={link.href}
-              className="whitespace-nowrap rounded-full px-3 py-1.5 text-sm font-medium text-amber-900 transition hover:bg-amber-100"
+              className="min-h-[44px] flex items-center whitespace-nowrap rounded-full px-3 py-2 text-sm font-medium text-amber-900 transition hover:bg-amber-100"
             >
               {link.label}
             </Link>
           ))}
           {user ? (
             <>
-              <Link href="/dashboard" className="whitespace-nowrap rounded-full bg-amber-100 px-3 py-1.5 text-sm font-semibold text-amber-900 hover:bg-amber-200">
+              <Link href="/dashboard" className="min-h-[44px] flex items-center whitespace-nowrap rounded-full bg-amber-100 px-3 py-2 text-sm font-semibold text-amber-900 hover:bg-amber-200">
                 Dashboard
               </Link>
               <form action={signOutAction}>
-                <button type="submit" className="whitespace-nowrap rounded-full px-3 py-1.5 text-sm font-medium text-amber-900 transition hover:bg-amber-100">
+                <button type="submit" className="min-h-[44px] flex items-center whitespace-nowrap rounded-full px-3 py-2 text-sm font-medium text-amber-900 transition hover:bg-amber-100">
                   Sign Out
                 </button>
               </form>
             </>
           ) : (
-            <Link href="/login" className="whitespace-nowrap rounded-full bg-amber-600 px-3 py-1.5 text-sm font-semibold text-white hover:bg-amber-700">
+            <Link href="/login" className="min-h-[44px] flex items-center whitespace-nowrap rounded-full bg-amber-600 px-4 py-2 text-sm font-semibold text-white hover:bg-amber-700">
               Log In
             </Link>
           )}

@@ -75,16 +75,16 @@ export default async function DashboardPage({ params }: DashboardPageProps) {
             <div className="flex flex-col items-start justify-between gap-4 sm:flex-row">
                 <div>
                     <h1 className="text-3xl font-bold tracking-tight text-amber-950 sm:text-4xl">{t("dashboard.yourDashboard")}</h1>
-                    <p className="mt-3 text-amber-900/80">{t("dashboard.signedInAs")} {user.email}</p>
+                    <p className="mt-3 text-base text-amber-900/80">{t("dashboard.signedInAs")} {user.email}</p>
                 </div>
                 <form action={signOutAction}>
-                    <button type="submit" className="inline-flex w-full justify-center rounded-full border border-amber-900/20 px-5 py-2 text-sm font-semibold text-amber-900 hover:bg-amber-100 sm:w-auto">
+                    <button type="submit" className="min-h-[44px] w-full rounded-full border border-amber-900/20 px-5 py-2 text-base font-semibold text-amber-900 hover:bg-amber-100 sm:w-auto">
                         {t("dashboard.signOut")}
                     </button>
                 </form>
             </div>
 
-            <section className="mt-8 grid gap-4 sm:grid-cols-3">
+            <section className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
                 <article className="rounded-3xl border border-amber-900/10 bg-white p-5 shadow-sm">
                     <p className="text-sm text-amber-900/70">{t("dashboard.petsHelpedTotal")}</p>
                     <p className="mt-2 text-3xl font-bold text-amber-950">{totalImpact}</p>
@@ -99,7 +99,7 @@ export default async function DashboardPage({ params }: DashboardPageProps) {
                 </article>
             </section>
 
-            <section className="mt-8 grid gap-6 lg:grid-cols-2">
+            <section className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
                 <article className="rounded-3xl border border-amber-900/10 bg-white p-6 shadow-sm">
                     <h2 className="text-xl font-bold text-amber-950">{t("dashboard.recentDonations")}</h2>
                     <ul className="mt-4 space-y-3">
@@ -131,7 +131,7 @@ export default async function DashboardPage({ params }: DashboardPageProps) {
             </section>
 
             <div className="mt-8 rounded-3xl border border-amber-900/10 bg-white p-6 shadow-sm">
-                <Link href="/api/stripe/portal" className="inline-flex rounded-full bg-amber-600 px-5 py-2 text-sm font-semibold text-white hover:bg-amber-700">
+                <Link href="/api/stripe/portal" className="inline-flex min-h-[44px] w-full items-center justify-center rounded-full bg-amber-600 px-5 py-3 text-base font-semibold text-white hover:bg-amber-700 sm:w-auto">
                     {t("dashboard.openStripePortal")}
                 </Link>
             </div>
