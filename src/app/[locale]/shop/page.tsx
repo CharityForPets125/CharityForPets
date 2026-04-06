@@ -28,7 +28,7 @@ export default async function ShopPage({ params }: ShopPageProps) {
     const t = (path: string, defaultValue = "") => getString(locale as Locale, path, defaultValue);
 
     const [products, shopSettings] = await Promise.all([
-        fetchSanity<Product[]>(PRODUCTS_QUERY, {}, []),
+        fetchSanity<Product[]>(PRODUCTS_QUERY(locale), {}, []),
         fetchSanity<ShopSettings | null>(SHOP_SETTINGS_QUERY, {}, null),
     ]);
 

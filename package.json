@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "sanity:seed": "node src/sanity/seed.js",
+    "sanity:migrate-cs": "node src/sanity/migrate-czech.js"
   },
   "dependencies": {
     "@base-ui/react": "^1.3.0",

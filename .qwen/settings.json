@@ -5,7 +5,10 @@
       "Bash(npm run *)",
       "Bash(rmdir *)",
       "Bash(dir *)",
-      "Bash(taskkill *)"
+      "Bash(taskkill *)",
+      "Bash(npm *)",
+      "Bash(node *)",
+      "Bash(findstr *)"
     ]
   },
   "$version": 3

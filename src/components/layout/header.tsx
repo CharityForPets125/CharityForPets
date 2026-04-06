@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { cookies as nextCookies } from "next/headers";
 import { LanguageSwitcher } from "./language-switcher";
 import { MobileMenu } from "./mobile-menu";
 
@@ -15,6 +16,7 @@ type NavLink = {
 
 type NavigationDoc = {
   headerLinks?: NavLink[];
+  footerLinks?: NavLink[];
 };
 
 type SiteSettings = {
@@ -22,10 +24,21 @@ type SiteSettings = {
 };
 
 export async function Header() {
+  let locale = "en";
+  try {
+    const cookieStore = await nextCookies();
+    const cookieLocale = cookieStore.get("NEXT_LOCALE")?.value;
+    if (cookieLocale === "en" || cookieLocale === "cs") {
+      locale = cookieLocale;
+    }
+  } catch {
+    // fallback to en
+  }
+
   const supabase = await createSupabaseServerClient();
   const [navigation, settings] = await Promise.all([
     fetchSanity<NavigationDoc | null>(NAVIGATION_QUERY, {}, null),
-    fetchSanity<SiteSettings | null>(SITE_SETTINGS_QUERY, {}, null),
+    fetchSanity<SiteSettings | null>(SITE_SETTINGS_QUERY(locale), {}, null),
   ]);
 
   let user: { id: string } | null = null;

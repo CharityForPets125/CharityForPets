@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { cookies as nextCookies } from "next/headers";
 
 import { fetchSanity } from "@/lib/sanity/client";
 import { NAVIGATION_QUERY, SITE_SETTINGS_QUERY } from "@/lib/sanity/queries";
@@ -18,9 +19,20 @@ type SiteSettings = {
 };
 
 export async function Footer() {
+  let locale = "en";
+  try {
+    const cookieStore = await nextCookies();
+    const cookieLocale = cookieStore.get("NEXT_LOCALE")?.value;
+    if (cookieLocale === "en" || cookieLocale === "cs") {
+      locale = cookieLocale;
+    }
+  } catch {
+    // fallback to en
+  }
+
   const [navigation, settings] = await Promise.all([
     fetchSanity<NavigationDoc | null>(NAVIGATION_QUERY, {}, null),
-    fetchSanity<SiteSettings | null>(SITE_SETTINGS_QUERY, {}, null),
+    fetchSanity<SiteSettings | null>(SITE_SETTINGS_QUERY(locale), {}, null),
   ]);
 
   const links = navigation?.footerLinks || [];

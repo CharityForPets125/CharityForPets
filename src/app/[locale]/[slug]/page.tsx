@@ -16,8 +16,8 @@ type DynamicPageProps = {
 };
 
 export default async function DynamicPage({ params }: DynamicPageProps) {
-    const { slug } = await params;
-    const page = await fetchSanity<DynamicPageDoc | null>(PAGE_BY_SLUG_QUERY, { slug }, null);
+    const { slug, locale } = await params;
+    const page = await fetchSanity<DynamicPageDoc | null>(PAGE_BY_SLUG_QUERY(locale), { slug }, null);
 
     if (!page) {
         notFound();

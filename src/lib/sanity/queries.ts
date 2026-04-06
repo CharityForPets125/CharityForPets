@@ -1,16 +1,88 @@
-export const SITE_SETTINGS_QUERY = `*[_type == "siteSettings"][0]`;
+export function localizeField(field: string, locale = "en"): string {
+  return `${field}.${locale}`;
+}
 
-export const NAVIGATION_QUERY = `*[_type == "navigation"][0]`;
+export function localizeFieldOptional(field: string, locale = "en"): string {
+  return `"${field}": ${field}.${locale}`;
+}
 
-export const HOME_PAGE_QUERY = `*[_type == "homePage"][0]`;
+const SITE_SETTINGS_QUERY = (locale = "en") => `*[_type == "siteSettings"][0]{
+  "siteName": siteName.${locale},
+  logo,
+  "footerText": footerText.${locale},
+  contactEmail,
+  socialLinks
+}`;
 
-export const DONATION_SETTINGS_QUERY = `*[_type == "donationSettings"][0]`;
+const NAVIGATION_QUERY = `*[_type == "navigation"][0]`;
 
-export const SHOP_SETTINGS_QUERY = `*[_type == "shopSettings"][0]`;
+const HOME_PAGE_QUERY = (locale = "en") => `*[_type == "homePage"][0]{
+  "heroTitle": heroTitle.${locale},
+  "heroSubtitle": heroSubtitle.${locale},
+  heroImage,
+  impactCounters[]{
+    "label": label.${locale},
+    value
+  },
+  "aboutTitle": aboutTitle.${locale},
+  "aboutText": aboutText.${locale},
+  "ctaTitle": ctaTitle.${locale},
+  "ctaText": ctaText.${locale},
+  testimonials[]{
+    "quote": quote.${locale},
+    "author": author.${locale}
+  },
+  showHeroSection,
+  showImpactCounters,
+  showAboutSection,
+  showCTASection,
+  showTestimonials,
+  showFeaturedProducts
+}`;
 
-export const PRODUCTS_QUERY = `*[_type == "product" && inStock == true] | order(_createdAt desc)`;
+const DONATION_SETTINGS_QUERY = `*[_type == "donationSettings"][0]`;
 
-export const PRODUCT_BY_SLUG_QUERY =
-  `*[_type == "product" && slug.current == $slug][0]`;
+const SHOP_SETTINGS_QUERY = `*[_type == "shopSettings"][0]`;
 
-export const PAGE_BY_SLUG_QUERY = `*[_type == "page" && slug.current == $slug][0]`;
+const PRODUCTS_QUERY = (locale = "en") => `*[_type == "product" && inStock == true] | order(_createdAt desc){
+  _id,
+  "name": name.${locale},
+  slug,
+  price,
+  "description": description.${locale},
+  category,
+  stripePriceId,
+  inStock,
+  images
+}`;
+
+const PRODUCT_BY_SLUG_QUERY = (locale = "en") =>
+  `*[_type == "product" && slug.current == $slug][0]{
+    _id,
+    "name": name.${locale},
+    "description": description.${locale},
+    price,
+    stripePriceId,
+    body,
+    images
+  }`;
+
+const PAGE_BY_SLUG_QUERY = (locale = "en") => `*[_type == "page" && slug.current == $slug][0]{
+  "title": title.${locale},
+  slug,
+  body,
+  heroImage,
+  showHeroImage,
+  showBody
+}`;
+
+export {
+  SITE_SETTINGS_QUERY,
+  NAVIGATION_QUERY,
+  HOME_PAGE_QUERY,
+  DONATION_SETTINGS_QUERY,
+  SHOP_SETTINGS_QUERY,
+  PRODUCTS_QUERY,
+  PRODUCT_BY_SLUG_QUERY,
+  PAGE_BY_SLUG_QUERY,
+};

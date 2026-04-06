@@ -25,7 +25,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
     const { slug, locale } = await params;
     const t = (path: string, defaultValue = "") => getString(locale as Locale, path, defaultValue);
 
-    const product = await fetchSanity<ProductDoc | null>(PRODUCT_BY_SLUG_QUERY, { slug }, null);
+    const product = await fetchSanity<ProductDoc | null>(PRODUCT_BY_SLUG_QUERY(locale), { slug }, null);
 
     if (!product) {
         notFound();

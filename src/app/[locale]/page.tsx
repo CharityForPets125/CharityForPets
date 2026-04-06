@@ -48,10 +48,16 @@ type Product = {
     images?: unknown[];
 };
 
-export default async function Home() {
+type HomePageProps = {
+    params: Promise<{ locale: string }>;
+};
+
+export default async function Home({ params }: HomePageProps) {
+    const { locale } = await params;
+
     const [homePage, products, shopSettings, donationSettings] = await Promise.all([
-        fetchSanity<HomePageDoc | null>(HOME_PAGE_QUERY, {}, null),
-        fetchSanity<Product[]>(PRODUCTS_QUERY, {}, []),
+        fetchSanity<HomePageDoc | null>(HOME_PAGE_QUERY(locale), {}, null),
+        fetchSanity<Product[]>(PRODUCTS_QUERY(locale), {}, []),
         fetchSanity<ShopSettings | null>(SHOP_SETTINGS_QUERY, {}, null),
         fetchSanity<DonationSettings | null>(DONATION_SETTINGS_QUERY, {}, null),
     ]);
