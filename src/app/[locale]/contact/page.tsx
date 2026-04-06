@@ -1,23 +1,115 @@
-import { fetchSanity } from "@/lib/sanity/client";
-import { PAGE_BY_SLUG_QUERY } from "@/lib/sanity/queries";
+"use client";
 
-import { PortableTextRenderer } from "@/components/sanity/portable-text";
+import { useState, type FormEvent } from "react";
+import { useParams } from "next/navigation";
+import { getString, type Locale } from "@/lib/i18n/strings";
 
-type ContactPageDoc = {
-    title?: string;
-    body?: unknown[];
-};
+export default function ContactPage() {
+    const params = useParams();
+    const locale = (params?.locale as string) || "en";
+    const t = (path: string, defaultValue = "") => getString(locale as Locale, path, defaultValue);
 
-export default async function ContactPage() {
-    const page = await fetchSanity<ContactPageDoc | null>(PAGE_BY_SLUG_QUERY, { slug: "contact" }, null);
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [message, setMessage] = useState("");
+    const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+
+    async function handleSubmit(e: FormEvent) {
+        e.preventDefault();
+        setStatus("sending");
+
+        try {
+            const res = await fetch("/api/contact", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name, email, message }),
+            });
+
+            if (res.ok) {
+                setStatus("success");
+                setName("");
+                setEmail("");
+                setMessage("");
+            } else {
+                setStatus("error");
+            }
+        } catch {
+            setStatus("error");
+        }
+    }
 
     return (
         <main className="mx-auto w-full max-w-4xl px-4 py-10 sm:px-6 lg:px-8">
-            <h1 className="text-3xl font-bold tracking-tight text-amber-950 sm:text-4xl">{page?.title || "Contact"}</h1>
-            <section className="mt-8">
-                <PortableTextRenderer value={page?.body as never} />
-            </section>
+            <h1 className="text-3xl font-bold tracking-tight text-amber-950 sm:text-4xl">{t("contact.title")}</h1>
+            <p className="mt-3 text-amber-900/80">{t("contact.formDescription")}</p>
+
+            <div className="mt-8 rounded-3xl border border-amber-900/10 bg-white p-6 shadow-sm sm:p-8">
+                {status === "success" && (
+                    <p role="status" className="mb-4 rounded-2xl bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
+                        {t("contact.success")}
+                    </p>
+                )}
+                {status === "error" && (
+                    <p role="alert" className="mb-4 rounded-2xl bg-red-50 px-4 py-3 text-sm text-red-700">
+                        {t("contact.error")}
+                    </p>
+                )}
+
+                <form onSubmit={handleSubmit} className="space-y-5">
+                    <div>
+                        <label htmlFor="contact-name" className="block text-sm font-semibold text-amber-950">
+                            {t("contact.name")}
+                        </label>
+                        <input
+                            id="contact-name"
+                            type="text"
+                            required
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            className="mt-2 w-full rounded-2xl border border-amber-900/20 px-4 py-2.5 text-sm text-amber-950 outline-none ring-0 placeholder:text-amber-900/40 focus:border-amber-600"
+                            placeholder={t("contact.namePlaceholder")}
+                        />
+                    </div>
+
+                    <div>
+                        <label htmlFor="contact-email" className="block text-sm font-semibold text-amber-950">
+                            {t("contact.email")}
+                        </label>
+                        <input
+                            id="contact-email"
+                            type="email"
+                            required
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            className="mt-2 w-full rounded-2xl border border-amber-900/20 px-4 py-2.5 text-sm text-amber-950 outline-none ring-0 placeholder:text-amber-900/40 focus:border-amber-600"
+                            placeholder={t("contact.emailPlaceholder")}
+                        />
+                    </div>
+
+                    <div>
+                        <label htmlFor="contact-message" className="block text-sm font-semibold text-amber-950">
+                            {t("contact.message")}
+                        </label>
+                        <textarea
+                            id="contact-message"
+                            required
+                            rows={5}
+                            value={message}
+                            onChange={(e) => setMessage(e.target.value)}
+                            className="mt-2 w-full rounded-2xl border border-amber-900/20 px-4 py-2.5 text-sm text-amber-950 outline-none ring-0 placeholder:text-amber-900/40 focus:border-amber-600"
+                            placeholder={t("contact.messagePlaceholder")}
+                        />
+                    </div>
+
+                    <button
+                        type="submit"
+                        disabled={status === "sending"}
+                        className="rounded-full bg-amber-600 px-6 py-2.5 text-sm font-semibold text-white transition hover:bg-amber-700 disabled:cursor-not-allowed disabled:opacity-60"
+                    >
+                        {status === "sending" ? t("contact.sending") : t("contact.send")}
+                    </button>
+                </form>
+            </div>
         </main>
     );
 }
-// ...existing code from src/app/contact/page.tsx...

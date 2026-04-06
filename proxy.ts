@@ -97,6 +97,6 @@ export async function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
-    "/((?!_next|api|static|favicon|manifest|studio).*)",
+    "/((?!_next|api|static|favicon|manifest|studio|success).*)",
   ],
 };

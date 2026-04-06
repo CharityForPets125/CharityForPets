@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 
 import { fetchSanity } from "@/lib/sanity/client";
 import { PRODUCT_BY_SLUG_QUERY } from "@/lib/sanity/queries";
+import { getString, type Locale } from "@/lib/i18n/strings";
 
 import { CheckoutButton } from "@/components/checkout/checkout-button";
 import { PortableTextRenderer } from "@/components/sanity/portable-text";
@@ -16,8 +17,14 @@ type ProductDoc = {
     body?: unknown[];
 };
 
-export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
-    const { slug } = await params;
+type ProductPageProps = {
+    params: Promise<{ slug: string; locale: string }>;
+};
+
+export default async function ProductPage({ params }: ProductPageProps) {
+    const { slug, locale } = await params;
+    const t = (path: string, defaultValue = "") => getString(locale as Locale, path, defaultValue);
+
     const product = await fetchSanity<ProductDoc | null>(PRODUCT_BY_SLUG_QUERY, { slug }, null);
 
     if (!product) {
@@ -29,7 +36,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
             <div className="grid gap-6 sm:gap-8 md:grid-cols-2">
                 <div>
                     {product.images?.[0] ? (
-                        <SanityImage image={product.images[0]} alt={product.name || "Product image"} className="rounded-3xl object-cover" priority />
+                        <SanityImage image={product.images[0]} alt={product.name || t("product.productImage")} className="rounded-3xl object-cover" priority />
                     ) : null}
                 </div>
                 <div>
@@ -44,9 +51,9 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
                             quantity={1}
                             cancelPath={`/shop/${slug}`}
                             className="w-full rounded-full bg-amber-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-amber-700 disabled:cursor-not-allowed disabled:opacity-60"
-                            disabledLabel="Checkout unavailable"
+                            disabledLabel={t("shop.buyNowUnavailable")}
                         >
-                            Buy Now
+                            {t("shop.buyNow")}
                         </CheckoutButton>
                     </div>
                 </div>
@@ -57,4 +64,3 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
         </main>
     );
 }
-// ...existing code from src/app/shop/[slug]/page.tsx...

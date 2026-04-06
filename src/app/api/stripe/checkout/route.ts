@@ -32,14 +32,15 @@ export async function POST(request: Request) {
 
   const source = body.source === "donation" ? "donation" : "shop";
   const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
-  const successPath = body.successPath?.startsWith("/") ? body.successPath : "/dashboard";
+  const successPath = body.successPath?.startsWith("/") ? body.successPath : "/success";
   const cancelPath = body.cancelPath?.startsWith("/") ? body.cancelPath : source === "donation" ? "/donate" : "/shop";
+  const successType = source === "donation" ? "donation" : "order";
 
   const stripe = getStripeServerClient();
   const session = await stripe.checkout.sessions.create({
     mode: body.mode,
     line_items: [{ price: body.priceId, quantity: body.quantity ?? 1 }],
-    success_url: `${appUrl}${successPath}`,
+    success_url: `${appUrl}${successPath}?type=${successType}`,
     cancel_url: `${appUrl}${cancelPath}`,
     customer_email: user.email,
     metadata: {

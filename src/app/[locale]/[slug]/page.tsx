@@ -11,7 +11,11 @@ type DynamicPageDoc = {
     heroImage?: unknown;
 };
 
-export default async function DynamicPage({ params }: { params: Promise<{ slug: string }> }) {
+type DynamicPageProps = {
+    params: Promise<{ slug: string; locale: string }>;
+};
+
+export default async function DynamicPage({ params }: DynamicPageProps) {
     const { slug } = await params;
     const page = await fetchSanity<DynamicPageDoc | null>(PAGE_BY_SLUG_QUERY, { slug }, null);
 
@@ -31,4 +35,3 @@ export default async function DynamicPage({ params }: { params: Promise<{ slug: 
         </main>
     );
 }
-// ...existing code from src/app/[slug]/page.tsx...
