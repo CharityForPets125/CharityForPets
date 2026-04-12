@@ -39,6 +39,14 @@ export function CheckoutButton({
 
     const isDisabled = !priceId || isLoading;
 
+    function createCheckoutRequestId(): string {
+        if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
+            return crypto.randomUUID();
+        }
+
+        return `${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+    }
+
     async function handleCheckout() {
         if (!priceId || isLoading) {
             return;
@@ -48,12 +56,14 @@ export function CheckoutButton({
         setError(null);
 
         try {
+            const requestId = createCheckoutRequestId();
             const response = await fetch("/api/stripe/checkout", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
+                    requestId,
                     priceId,
                     mode,
                     source,

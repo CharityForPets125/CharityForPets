@@ -66,24 +66,36 @@ export default async function DashboardPage({ params }: DashboardPageProps) {
 
     const t = (path: string, defaultValue = "") => getString(locale as Locale, path, defaultValue);
 
-    const [{ data: donations }, { data: orders }, impactSettings] = await Promise.all([
+    const [{ data: donationTotals }, { data: orderTotals }, { data: recentDonations }, { data: recentOrders }, impactSettings] = await Promise.all([
+        supabase
+            .from("donations")
+            .select("amount_cents")
+            .eq("user_id", user.id)
+            .returns<Array<Pick<Donation, "amount_cents">>>(),
+        supabase
+            .from("orders")
+            .select("amount_cents")
+            .eq("user_id", user.id)
+            .returns<Array<Pick<Order, "amount_cents">>>(),
         supabase
             .from("donations")
             .select("id, amount_cents, created_at")
             .eq("user_id", user.id)
             .order("created_at", { ascending: false })
+            .limit(5)
             .returns<Donation[]>(),
         supabase
             .from("orders")
             .select("id, amount_cents, status, created_at")
             .eq("user_id", user.id)
             .order("created_at", { ascending: false })
+            .limit(5)
             .returns<Order[]>(),
         fetchSanity<ImpactSettings | null>(IMPACT_SETTINGS_QUERY, {}, null),
     ]);
 
-    const donationTotalCents = (donations ?? []).reduce((sum, donation) => sum + donation.amount_cents, 0);
-    const shopTotalCents = (orders ?? []).reduce((sum, order) => sum + order.amount_cents, 0);
+    const donationTotalCents = (donationTotals ?? []).reduce((sum, donation) => sum + donation.amount_cents, 0);
+    const shopTotalCents = (orderTotals ?? []).reduce((sum, order) => sum + order.amount_cents, 0);
 
     const donationRate = impactSettings?.donationUsdPerSavedAnimal ?? 25;
     const shopRate = impactSettings?.shopUsdPerSavedAnimal ?? 40;
@@ -95,9 +107,8 @@ export default async function DashboardPage({ params }: DashboardPageProps) {
     const catShare = Math.max(0, Math.min(100, impactSettings?.catSharePercent ?? 50)) / 100;
     const catsSaved = Math.round(totalImpact * catShare);
     const dogsSaved = Math.max(totalImpact - catsSaved, 0);
-
-    const recentDonations = (donations ?? []).slice(0, 5);
-    const recentOrders = (orders ?? []).slice(0, 5);
+    const recentDonationsList = recentDonations ?? [];
+    const recentOrdersList = recentOrders ?? [];
 
     return (
         <main className="mx-auto w-full max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
@@ -152,20 +163,20 @@ export default async function DashboardPage({ params }: DashboardPageProps) {
                 <article className="rounded-3xl border border-amber-900/10 bg-white p-6 shadow-sm">
                     <h2 className="text-xl font-bold text-amber-950">{t("dashboard.recentDonations")}</h2>
                     <ul className="mt-4 space-y-3">
-                        {recentDonations.map((donation) => (
+                        {recentDonationsList.map((donation) => (
                             <li key={donation.id} className="flex flex-col gap-1 rounded-2xl bg-amber-50/60 px-4 py-3 text-sm sm:flex-row sm:items-center sm:justify-between">
                                 <span className="text-amber-900">{formatDate(donation.created_at, locale as Locale)}</span>
                                 <span className="font-semibold text-amber-950">{formatMoney(donation.amount_cents, locale as Locale)}</span>
                             </li>
                         ))}
-                        {!recentDonations.length && <li className="text-sm text-amber-900/70">{t("dashboard.noDonationsYet")}</li>}
+                        {!recentDonationsList.length && <li className="text-sm text-amber-900/70">{t("dashboard.noDonationsYet")}</li>}
                     </ul>
                 </article>
 
                 <article className="rounded-3xl border border-amber-900/10 bg-white p-6 shadow-sm">
                     <h2 className="text-xl font-bold text-amber-950">{t("dashboard.recentOrders")}</h2>
                     <ul className="mt-4 space-y-3">
-                        {recentOrders.map((order) => (
+                        {recentOrdersList.map((order) => (
                             <li key={order.id} className="flex flex-col gap-2 rounded-2xl bg-amber-50/60 px-4 py-3 text-sm sm:flex-row sm:items-center sm:justify-between">
                                 <div>
                                     <p className="text-amber-900">{formatDate(order.created_at, locale as Locale)}</p>
@@ -174,7 +185,7 @@ export default async function DashboardPage({ params }: DashboardPageProps) {
                                 <span className="font-semibold text-amber-950">{formatMoney(order.amount_cents, locale as Locale)}</span>
                             </li>
                         ))}
-                        {!recentOrders.length && <li className="text-sm text-amber-900/70">{t("dashboard.noOrdersYet")}</li>}
+                        {!recentOrdersList.length && <li className="text-sm text-amber-900/70">{t("dashboard.noOrdersYet")}</li>}
                     </ul>
                 </article>
             </section>

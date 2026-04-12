@@ -42,13 +42,16 @@ export async function ensureStripeCustomerForUser(user: AuthUserLike): Promise<s
 
     let customer;
     try {
-      customer = await stripe.customers.create({
-        email: user.email,
-        name: fullName ?? undefined,
-        metadata: {
-          supabaseUserId: user.id,
+      customer = await stripe.customers.create(
+        {
+          email: user.email,
+          name: fullName ?? undefined,
+          metadata: {
+            supabaseUserId: user.id,
+          },
         },
-      });
+        { idempotencyKey: `customer-create-${user.id}` },
+      );
     } catch (error) {
       console.error("Failed to create Stripe customer:", error);
       throw new Error(`Stripe customer creation failed: ${error instanceof Error ? error.message : String(error)}`);

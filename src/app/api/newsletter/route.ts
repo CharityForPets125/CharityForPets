@@ -3,6 +3,7 @@ import { z } from "zod";
 
 import { getResendClient } from "@/lib/resend";
 import { env } from "@/env";
+import { checkRateLimit } from "@/lib/security/rate-limit";
 
 const newsletterSchema = z.object({
   email: z.string().email(),
@@ -10,6 +11,11 @@ const newsletterSchema = z.object({
 
 export async function POST(request: NextRequest) {
   try {
+    const rateLimit = checkRateLimit(request, "newsletter", { windowMs: 60_000, maxRequests: 5 });
+    if (!rateLimit.allowed) {
+      return NextResponse.json({ error: "Too many requests. Please try again shortly." }, { status: 429 });
+    }
+
     const body = await request.json();
     const parsed = newsletterSchema.safeParse(body);
 

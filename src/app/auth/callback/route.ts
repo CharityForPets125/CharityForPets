@@ -3,13 +3,17 @@ import { NextResponse, type NextRequest } from "next/server";
 import { localizePath, normalizeLocale } from "@/lib/i18n/routing";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
+function isSafeRelativePath(path: string) {
+  return path.startsWith("/") && !path.startsWith("//") && !path.includes("\\");
+}
+
 export async function GET(request: NextRequest) {
   const requestUrl = new URL(request.url);
   const code = requestUrl.searchParams.get("code");
   const next = requestUrl.searchParams.get("next");
   const parsedLocale = normalizeLocale(next?.split("/").filter(Boolean)[0]);
   const defaultNext = localizePath("/dashboard", parsedLocale);
-  const safeNext = next && next.startsWith("/") ? next : defaultNext;
+  const safeNext = next && isSafeRelativePath(next) ? next : defaultNext;
 
   if (code) {
     try {
