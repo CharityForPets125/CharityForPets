@@ -25,7 +25,8 @@ export async function fetchSanity<T>(
 
   try {
     return await sanityClient.fetch<T>(query, params);
-  } catch {
+  } catch (error) {
+    console.error("Sanity query failed:", { query, error: error instanceof Error ? error.message : String(error) });
     return fallback;
   }
 }

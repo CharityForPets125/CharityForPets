@@ -3,13 +3,21 @@
 import { useState } from "react";
 import Link from "next/link";
 import { signOutAction } from "@/app/auth/actions";
+import type { Locale } from "@/lib/i18n/strings";
+import { localizePath } from "@/lib/i18n/routing";
 
 type MobileMenuProps = {
   links: { label: string; href: string }[];
   user: { id: string } | null;
+  locale: Locale;
+  labels: {
+    dashboard: string;
+    signOut: string;
+    logIn: string;
+  };
 };
 
-export function MobileMenu({ links, user }: MobileMenuProps) {
+export function MobileMenu({ links, user, locale, labels }: MobileMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -43,7 +51,7 @@ export function MobileMenu({ links, user }: MobileMenuProps) {
               {links.map((link) => (
                 <Link
                   key={`${link.label}-${link.href}`}
-                  href={link.href}
+                  href={localizePath(link.href, locale)}
                   onClick={() => setIsOpen(false)}
                   className="min-h-[44px] flex items-center rounded-xl px-3 py-2.5 text-base font-medium text-amber-900 transition hover:bg-amber-50"
                 >
@@ -54,29 +62,30 @@ export function MobileMenu({ links, user }: MobileMenuProps) {
               {user ? (
                 <>
                   <Link
-                    href="/dashboard"
+                    href={localizePath("/dashboard", locale)}
                     onClick={() => setIsOpen(false)}
                     className="min-h-[44px] flex items-center rounded-xl bg-amber-100 px-3 py-2.5 text-base font-semibold text-amber-900 hover:bg-amber-200"
                   >
-                    Dashboard
+                    {labels.dashboard}
                   </Link>
                   <form action={signOutAction}>
+                    <input type="hidden" name="locale" value={locale} />
                     <button
                       type="submit"
                       onClick={() => setIsOpen(false)}
                       className="w-full min-h-[44px] rounded-xl px-3 py-2.5 text-left text-base font-medium text-amber-900 transition hover:bg-amber-50"
                     >
-                      Sign Out
+                      {labels.signOut}
                     </button>
                   </form>
                 </>
               ) : (
                 <Link
-                  href="/login"
+                  href={localizePath("/login", locale)}
                   onClick={() => setIsOpen(false)}
                   className="min-h-[44px] flex items-center justify-center rounded-xl bg-amber-600 px-3 py-2.5 text-center text-base font-semibold text-white hover:bg-amber-700"
                 >
-                  Log In
+                  {labels.logIn}
                 </Link>
               )}
             </nav>

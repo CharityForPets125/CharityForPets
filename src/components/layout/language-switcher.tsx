@@ -1,21 +1,25 @@
 "use client";
 
 import { useRouter, usePathname } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
-const SUPPORTED_LOCALES = ["en", "cs"];
+import { SUPPORTED_LOCALES, localizePath, normalizeLocale } from "@/lib/i18n/routing";
 
 export function LanguageSwitcher() {
     const router = useRouter();
     const pathname = usePathname();
+    const searchParams = useSearchParams();
     const segments = pathname.split("/").filter(Boolean);
-    const currentLocale = SUPPORTED_LOCALES.includes(segments[0]) ? segments[0] : "en";
+    const currentLocale = normalizeLocale(segments[0]);
 
     function switchLocale(newLocale: string) {
         if (newLocale === currentLocale) return;
-        const rest = SUPPORTED_LOCALES.includes(segments[0]) ? segments.slice(1) : segments;
-        const newPath = `/${newLocale}${rest.length ? "/" + rest.join("/") : ""}`;
-        router.push(newPath);
-        document.cookie = `NEXT_LOCALE=${newLocale}; path=/`;
+
+        const basePath = localizePath(pathname, normalizeLocale(newLocale));
+        const query = searchParams.toString();
+        const nextUrl = query ? `${basePath}?${query}` : basePath;
+
+        router.replace(nextUrl);
     }
 
     return (

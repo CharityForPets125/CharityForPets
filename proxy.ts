@@ -60,7 +60,7 @@ export async function proxy(request: NextRequest) {
     return response;
   }
 
-  let response = NextResponse.next();
+  const response = NextResponse.next();
   response.headers.set("x-locale", locale);
 
   // Supabase auth for dashboard

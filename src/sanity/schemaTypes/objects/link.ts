@@ -6,6 +6,11 @@ export const linkType = defineType({
   type: "object",
   fields: [
     defineField({
+      name: "labelI18n",
+      title: "Localized Label",
+      type: "localizedString",
+    }),
+    defineField({
       name: "label",
       title: "Label",
       type: "string",

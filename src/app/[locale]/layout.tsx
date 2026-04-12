@@ -95,9 +95,9 @@ export default async function LocaleLayout({
       </head>
       <body className="min-h-full flex flex-col bg-background text-foreground">
         <SkipToContent />
-        <Header />
+        <Header locale={isCs ? "cs" : "en"} />
         <div id="main-content" className="flex-1" tabIndex={-1}>{children}</div>
-        <Footer />
+        <Footer locale={isCs ? "cs" : "en"} />
       </body>
     </html>
   );

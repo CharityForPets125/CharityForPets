@@ -1,7 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+
+import { localizePath, normalizeLocale } from "@/lib/i18n/routing";
 
 type CheckoutButtonProps = {
     priceId?: string;
@@ -29,6 +31,11 @@ export function CheckoutButton({
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const router = useRouter();
+    const pathname = usePathname();
+
+    const activeLocale = normalizeLocale(pathname.split("/").filter(Boolean)[0]);
+    const localizedSuccessPath = localizePath(successPath, activeLocale);
+    const localizedCancelPath = cancelPath ? localizePath(cancelPath, activeLocale) : undefined;
 
     const isDisabled = !priceId || isLoading;
 
@@ -51,13 +58,13 @@ export function CheckoutButton({
                     mode,
                     source,
                     quantity,
-                    successPath,
-                    cancelPath,
+                    successPath: localizedSuccessPath,
+                    cancelPath: localizedCancelPath,
                 }),
             });
 
             if (response.status === 401) {
-                router.push("/login?message=Please log in to continue checkout");
+                router.push(`${localizePath("/login", activeLocale)}?message=Please log in to continue checkout`);
                 return;
             }
 

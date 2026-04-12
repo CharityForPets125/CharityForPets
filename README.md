@@ -56,3 +56,17 @@ Set these shell/user environment variables before launching VS Code so MCP serve
 npm run lint
 npm run build
 ```
+
+## Stripe Connection Checklist
+
+1. Ensure environment variables are set:
+	- `STRIPE_SECRET_KEY`
+	- `STRIPE_WEBHOOK_SECRET`
+	- `NEXT_PUBLIC_APP_URL`
+2. Start the app and sign in.
+3. Verify Stripe API connectivity in browser (while signed in):
+	- `GET /api/stripe/health`
+4. Confirm webhook processing by completing a test payment in Stripe test mode and checking:
+	- `public.stripe_events`
+	- `public.donations` or `public.orders`
+	- `public.profiles.stripe_customer_id`

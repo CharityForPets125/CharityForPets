@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { headers } from "next/headers";
 import { getString, type Locale } from "@/lib/i18n/strings";
+import { localizePath } from "@/lib/i18n/routing";
 
 export const metadata: Metadata = {
   title: "Thank You - Pet Charity",
@@ -47,13 +48,13 @@ export default async function SuccessPage({ searchParams }: SuccessPageProps) {
         </p>
         <div className="mt-8 flex flex-wrap justify-center gap-4">
           <Link
-            href="/dashboard"
+            href={localizePath("/dashboard", locale)}
             className="inline-flex rounded-full bg-amber-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-amber-700"
           >
             {t("success.backToDashboard")}
           </Link>
           <Link
-            href="/"
+            href={localizePath("/", locale)}
             className="inline-flex rounded-full border border-amber-900/20 bg-white px-6 py-3 text-sm font-semibold text-amber-900 transition hover:bg-amber-50"
           >
             {t("success.backToHome")}

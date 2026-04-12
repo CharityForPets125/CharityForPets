@@ -14,7 +14,16 @@ const SITE_SETTINGS_QUERY = (locale = "en") => `*[_type == "siteSettings"][0]{
   socialLinks
 }`;
 
-const NAVIGATION_QUERY = `*[_type == "navigation"][0]`;
+const NAVIGATION_QUERY = (locale = "en") => `*[_type == "navigation"][0]{
+  "headerLinks": headerLinks[]{
+    "label": coalesce(labelI18n.${locale}, labelI18n.en, label),
+    href
+  },
+  "footerLinks": footerLinks[]{
+    "label": coalesce(labelI18n.${locale}, labelI18n.en, label),
+    href
+  }
+}`;
 
 const HOME_PAGE_QUERY = (locale = "en") => `*[_type == "homePage"][0]{
   "heroTitle": heroTitle.${locale},
@@ -43,6 +52,8 @@ const HOME_PAGE_QUERY = (locale = "en") => `*[_type == "homePage"][0]{
 const DONATION_SETTINGS_QUERY = `*[_type == "donationSettings"][0]`;
 
 const SHOP_SETTINGS_QUERY = `*[_type == "shopSettings"][0]`;
+
+const IMPACT_SETTINGS_QUERY = `*[_type == "impactSettings"][0]`;
 
 const PRODUCTS_QUERY = (locale = "en") => `*[_type == "product" && inStock == true] | order(_createdAt desc){
   _id,
@@ -82,6 +93,7 @@ export {
   HOME_PAGE_QUERY,
   DONATION_SETTINGS_QUERY,
   SHOP_SETTINGS_QUERY,
+  IMPACT_SETTINGS_QUERY,
   PRODUCTS_QUERY,
   PRODUCT_BY_SLUG_QUERY,
   PAGE_BY_SLUG_QUERY,

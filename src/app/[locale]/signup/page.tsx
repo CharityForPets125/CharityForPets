@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { getString, type Locale } from "@/lib/i18n/strings";
+import { localizePath, normalizeLocale } from "@/lib/i18n/routing";
 
 import { signInWithGoogleAction, signUpAction } from "@/app/auth/actions";
 
@@ -14,6 +15,8 @@ type SignupPageProps = {
 };
 
 export default async function SignupPage({ searchParams, params }: SignupPageProps) {
+    const { locale: localeParam } = await params;
+    const locale = normalizeLocale(localeParam);
     const supabase = await createSupabaseServerClient();
     const user = supabase
         ? (
@@ -22,10 +25,9 @@ export default async function SignupPage({ searchParams, params }: SignupPagePro
         : null;
 
     if (user) {
-        redirect("/dashboard");
+        redirect(localizePath("/dashboard", locale));
     }
 
-    const { locale } = await params;
     const t = (path: string, defaultValue = "") => getString(locale as Locale, path, defaultValue);
 
     const query = await searchParams;
@@ -45,6 +47,7 @@ export default async function SignupPage({ searchParams, params }: SignupPagePro
                 ) : null}
 
                 <form action={signUpAction} className="space-y-6">
+                    <input type="hidden" name="locale" value={locale} />
                     <div>
                         <label className="block text-base font-semibold text-amber-950" htmlFor="email">
                             {t("auth.email")}
@@ -84,6 +87,7 @@ export default async function SignupPage({ searchParams, params }: SignupPagePro
                 </form>
 
                 <form action={signInWithGoogleAction} className="mt-4">
+                    <input type="hidden" name="locale" value={locale} />
                     <button
                         type="submit"
                         disabled={!supabase}
@@ -93,7 +97,7 @@ export default async function SignupPage({ searchParams, params }: SignupPagePro
                     </button>
                 </form>
 
-                <Link href="/login" className="mt-4 inline-block text-base font-semibold text-amber-700 hover:underline">
+                <Link href={localizePath("/login", locale)} className="mt-4 inline-block text-base font-semibold text-amber-700 hover:underline">
                     {t("auth.alreadyHave")}
                 </Link>
             </div>

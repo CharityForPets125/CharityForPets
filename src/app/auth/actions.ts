@@ -4,6 +4,7 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 import { env } from "@/env";
+import { localizePath, normalizeLocale } from "@/lib/i18n/routing";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 function getBaseUrl() {
@@ -14,6 +15,27 @@ function getBaseUrl() {
 
 function encodeMessage(value: string) {
   return encodeURIComponent(value);
+}
+
+async function getLocaleFromRequest(): Promise<"en" | "cs"> {
+  const requestHeaders = await headers();
+  const headerLocale = requestHeaders.get("x-locale");
+  if (headerLocale === "en" || headerLocale === "cs") {
+    return headerLocale;
+  }
+
+  const referer = requestHeaders.get("referer");
+  if (referer) {
+    try {
+      const refererUrl = new URL(referer);
+      const segment = refererUrl.pathname.split("/").filter(Boolean)[0];
+      return normalizeLocale(segment);
+    } catch {
+      return "en";
+    }
+  }
+
+  return "en";
 }
 
 async function ensureProfile() {
@@ -40,44 +62,46 @@ async function ensureProfile() {
 }
 
 export async function signInAction(formData: FormData) {
+  const locale = normalizeLocale(String(formData.get("locale") ?? "") || await getLocaleFromRequest());
   const email = String(formData.get("email") ?? "").trim();
   const password = String(formData.get("password") ?? "").trim();
 
   if (!email || !password) {
-    redirect(`/login?error=${encodeMessage("Email and password are required")}`);
+    redirect(`${localizePath("/login", locale)}?error=${encodeMessage("Email and password are required")}`);
   }
 
   const supabase = await createSupabaseServerClient();
   if (!supabase) {
-    redirect(`/login?error=${encodeMessage("Supabase auth is not configured")}`);
+    redirect(`${localizePath("/login", locale)}?error=${encodeMessage("Supabase auth is not configured")}`);
   }
 
   const { error } = await supabase.auth.signInWithPassword({ email, password });
 
   if (error) {
-    redirect(`/login?error=${encodeMessage(error.message)}`);
+    redirect(`${localizePath("/login", locale)}?error=${encodeMessage(error.message)}`);
   }
 
   await ensureProfile();
 
-  redirect("/dashboard");
+  redirect(localizePath("/dashboard", locale));
 }
 
 export async function signUpAction(formData: FormData) {
+  const locale = normalizeLocale(String(formData.get("locale") ?? "") || await getLocaleFromRequest());
   const email = String(formData.get("email") ?? "").trim();
   const password = String(formData.get("password") ?? "").trim();
 
   if (!email || !password) {
-    redirect(`/signup?error=${encodeMessage("Email and password are required")}`);
+    redirect(`${localizePath("/signup", locale)}?error=${encodeMessage("Email and password are required")}`);
   }
 
   const supabase = await createSupabaseServerClient();
   if (!supabase) {
-    redirect(`/signup?error=${encodeMessage("Supabase auth is not configured")}`);
+    redirect(`${localizePath("/signup", locale)}?error=${encodeMessage("Supabase auth is not configured")}`);
   }
 
   const baseUrl = getBaseUrl();
-  const emailRedirectTo = `${baseUrl}/auth/callback?next=/dashboard`;
+  const emailRedirectTo = `${baseUrl}/auth/callback?next=${encodeURIComponent(localizePath("/dashboard", locale))}`;
 
   const { data, error } = await supabase.auth.signUp({
     email,
@@ -88,47 +112,50 @@ export async function signUpAction(formData: FormData) {
   });
 
   if (error) {
-    redirect(`/signup?error=${encodeMessage(error.message)}`);
+    redirect(`${localizePath("/signup", locale)}?error=${encodeMessage(error.message)}`);
   }
 
   if (!data.session) {
-    redirect(`/login?message=${encodeMessage("Check your email to confirm your account")}`);
+    redirect(`${localizePath("/login", locale)}?message=${encodeMessage("Check your email to confirm your account")}`);
   }
 
   await ensureProfile();
 
-  redirect("/dashboard");
+  redirect(localizePath("/dashboard", locale));
 }
 
-export async function signInWithGoogleAction() {
+export async function signInWithGoogleAction(formData: FormData) {
+  const locale = normalizeLocale(String(formData.get("locale") ?? "") || await getLocaleFromRequest());
   const supabase = await createSupabaseServerClient();
   if (!supabase) {
-    redirect(`/login?error=${encodeMessage("Supabase auth is not configured")}`);
+    redirect(`${localizePath("/login", locale)}?error=${encodeMessage("Supabase auth is not configured")}`);
   }
 
   const requestHeaders = await headers();
   const origin = requestHeaders.get("origin") ?? getBaseUrl();
+  const nextPath = localizePath("/dashboard", locale);
 
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "google",
     options: {
-      redirectTo: `${origin}/auth/callback?next=/dashboard`,
+      redirectTo: `${origin}/auth/callback?next=${encodeURIComponent(nextPath)}`,
     },
   });
 
   if (error || !data.url) {
-    redirect(`/login?error=${encodeMessage(error?.message ?? "Unable to start Google sign-in")}`);
+    redirect(`${localizePath("/login", locale)}?error=${encodeMessage(error?.message ?? "Unable to start Google sign-in")}`);
   }
 
   redirect(data.url);
 }
 
-export async function signOutAction() {
+export async function signOutAction(formData: FormData) {
+  const locale = normalizeLocale(String(formData.get("locale") ?? "") || await getLocaleFromRequest());
   const supabase = await createSupabaseServerClient();
   if (!supabase) {
-    redirect("/");
+    redirect(localizePath("/", locale));
   }
 
   await supabase.auth.signOut();
-  redirect("/");
+  redirect(localizePath("/", locale));
 }
