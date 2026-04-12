@@ -20,7 +20,9 @@ export async function POST(request: Request) {
     const parsed = checkoutSchema.safeParse(body);
 
     if (!parsed.success) {
-      const errors = parsed.error.errors.map((e) => `${e.path.join(".")}: ${e.message}`).join(", ");
+      const errors = parsed.error.issues
+        .map((issue) => `${issue.path.join(".")}: ${issue.message}`)
+        .join(", ");
       return NextResponse.json({ error: `Validation failed: ${errors}` }, { status: 400 });
     }
 

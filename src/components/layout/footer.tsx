@@ -67,7 +67,7 @@ export async function Footer({ locale: localeProp }: FooterProps = {}) {
             ))}
           </nav>
         )}
-        {settings?.logo && (
+        {settings?.logo != null && (
           <div>
             <SanityImage
               image={settings.logo}
