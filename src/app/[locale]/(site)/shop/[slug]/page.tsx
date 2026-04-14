@@ -1,6 +1,6 @@
 ﻿import { notFound } from "next/navigation";
 
-import { fetchSanity } from "@/lib/sanity/client";
+import { sanityFetch } from "@/lib/sanity/live";
 import { PRODUCT_BY_SLUG_QUERY } from "@/lib/sanity/queries";
 import { getString, type Locale } from "@/lib/i18n/strings";
 
@@ -25,7 +25,8 @@ export default async function ProductPage({ params }: ProductPageProps) {
     const { slug, locale } = await params;
     const t = (path: string, defaultValue = "") => getString(locale as Locale, path, defaultValue);
 
-    const product = await fetchSanity<ProductDoc | null>(PRODUCT_BY_SLUG_QUERY(locale), { slug }, null);
+    const { data: productRaw } = await sanityFetch({ query: PRODUCT_BY_SLUG_QUERY(locale), params: { slug } });
+    const product = productRaw as ProductDoc | null;
 
     if (!product) {
         notFound();

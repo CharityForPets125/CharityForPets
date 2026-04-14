@@ -12,6 +12,10 @@ export const sanityClient = createClient({
   apiVersion: "2026-03-29",
   useCdn: true,
   token: env.SANITY_API_TOKEN,
+  stega: {
+    enabled: true,
+    studioUrl: "/en/studio",
+  },
 });
 
 export async function fetchSanity<T>(

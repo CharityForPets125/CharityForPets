@@ -7,6 +7,7 @@ const envSchema = z.object({
   NEXT_PUBLIC_SANITY_PROJECT_ID: z.string().min(1).optional(),
   NEXT_PUBLIC_SANITY_DATASET: z.string().min(1).optional(),
   SANITY_API_TOKEN: z.string().min(1).optional(),
+  SANITY_API_READ_TOKEN: z.string().min(1).optional(),
   STRIPE_SECRET_KEY: z.string().min(1).optional(),
   STRIPE_WEBHOOK_SECRET: z.string().min(1).optional(),
   RESEND_API_KEY: z.string().min(1).optional(),

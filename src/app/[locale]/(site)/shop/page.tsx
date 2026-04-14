@@ -1,6 +1,6 @@
 ﻿import Link from "next/link";
 
-import { fetchSanity } from "@/lib/sanity/client";
+import { sanityFetch } from "@/lib/sanity/live";
 import { PRODUCTS_QUERY, SHOP_SETTINGS_QUERY } from "@/lib/sanity/queries";
 import { getString, type Locale } from "@/lib/i18n/strings";
 
@@ -27,10 +27,12 @@ export default async function ShopPage({ params }: ShopPageProps) {
     const { locale } = await params;
     const t = (path: string, defaultValue = "") => getString(locale as Locale, path, defaultValue);
 
-    const [products, shopSettings] = await Promise.all([
-        fetchSanity<Product[]>(PRODUCTS_QUERY(locale), {}, []),
-        fetchSanity<ShopSettings | null>(SHOP_SETTINGS_QUERY, {}, null),
+    const [{ data: productsRaw }, { data: shopSettingsRaw }] = await Promise.all([
+        sanityFetch({ query: PRODUCTS_QUERY(locale) }),
+        sanityFetch({ query: SHOP_SETTINGS_QUERY }),
     ]);
+    const products = (productsRaw as Product[] | null) ?? [];
+    const shopSettings = shopSettingsRaw as ShopSettings | null;
 
     if (shopSettings?.isShopSectionVisible === false) {
         return (

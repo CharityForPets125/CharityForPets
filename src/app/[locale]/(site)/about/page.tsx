@@ -1,4 +1,4 @@
-import { fetchSanity } from "@/lib/sanity/client";
+import { sanityFetch } from "@/lib/sanity/live";
 import { PAGE_BY_SLUG_QUERY } from "@/lib/sanity/queries";
 import { getString, type Locale } from "@/lib/i18n/strings";
 
@@ -19,7 +19,8 @@ export default async function AboutPage({ params }: AboutPageProps) {
     const { locale } = await params;
     const t = (path: string, defaultValue = "") => getString(locale as Locale, path, defaultValue);
 
-    const page = await fetchSanity<AboutPageDoc | null>(PAGE_BY_SLUG_QUERY(locale), { slug: "about" }, null);
+    const { data: pageRaw } = await sanityFetch({ query: PAGE_BY_SLUG_QUERY(locale), params: { slug: "about" } });
+    const page = pageRaw as AboutPageDoc | null;
 
     return (
         <main className="mx-auto w-full max-w-5xl px-4 py-10 sm:px-6 lg:px-8">

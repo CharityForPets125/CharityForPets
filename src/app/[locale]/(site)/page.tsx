@@ -3,7 +3,7 @@ import Link from "next/link";
 import { SanityImage } from "@/components/sanity/sanity-image";
 import { getString, type Locale } from "@/lib/i18n/strings";
 import { localizePath, normalizeLocale } from "@/lib/i18n/routing";
-import { fetchSanity } from "@/lib/sanity/client";
+import { sanityFetch } from "@/lib/sanity/live";
 import { HOME_PAGE_QUERY, SHOP_SETTINGS_QUERY, DONATION_SETTINGS_QUERY } from "@/lib/sanity/queries";
 
 type Counter = {
@@ -55,11 +55,14 @@ export default async function Home({ params }: HomePageProps) {
     const locale = normalizeLocale(localeParam);
     const t = (path: string, defaultValue = "") => getString(locale as Locale, path, defaultValue);
 
-    const [homePage, shopSettings, donationSettings] = await Promise.all([
-        fetchSanity<HomePageDoc | null>(HOME_PAGE_QUERY(locale), {}, null),
-        fetchSanity<ShopSettings | null>(SHOP_SETTINGS_QUERY, {}, null),
-        fetchSanity<DonationSettings | null>(DONATION_SETTINGS_QUERY, {}, null),
+    const [{ data: homePageRaw }, { data: shopSettingsRaw }, { data: donationSettingsRaw }] = await Promise.all([
+        sanityFetch({ query: HOME_PAGE_QUERY(locale) }),
+        sanityFetch({ query: SHOP_SETTINGS_QUERY }),
+        sanityFetch({ query: DONATION_SETTINGS_QUERY }),
     ]);
+    const homePage = homePageRaw as HomePageDoc | null;
+    const shopSettings = shopSettingsRaw as ShopSettings | null;
+    const donationSettings = donationSettingsRaw as DonationSettings | null;
 
     const defaultCounters: Counter[] = [
         { value: 2410330, label: t("home.raisedFallback", "CZK raised") },

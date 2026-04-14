@@ -1,4 +1,8 @@
 import type { Metadata } from "next";
+import { draftMode } from "next/headers";
+import { VisualEditing } from "next-sanity/visual-editing";
+
+import { SanityLive } from "@/lib/sanity/live";
 
 export const metadata: Metadata = {
   title: "Druh šance",
@@ -8,10 +12,18 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return children;
+  const { isEnabled: isDraftMode } = await draftMode();
+
+  return (
+    <>
+      {children}
+      <SanityLive />
+      {isDraftMode && <VisualEditing />}
+    </>
+  );
 }

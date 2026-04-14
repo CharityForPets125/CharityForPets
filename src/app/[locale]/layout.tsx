@@ -1,9 +1,6 @@
 import type { Metadata } from "next";
 import { Baloo_2, Nunito } from "next/font/google";
 
-import { Header } from "@/components/layout/header";
-import { Footer } from "@/components/layout/footer";
-import { SkipToContent } from "@/components/accessibility/skip-to-content";
 import "../globals.css";
 
 const bodyFont = Nunito({
@@ -94,10 +91,7 @@ export default async function LocaleLayout({
         />
       </head>
       <body className="min-h-full flex flex-col bg-background text-foreground">
-        <SkipToContent />
-        <Header locale={isCs ? "cs" : "en"} />
-        <div id="main-content" className="flex-1" tabIndex={-1}>{children}</div>
-        <Footer locale={isCs ? "cs" : "en"} />
+        {children}
       </body>
     </html>
   );

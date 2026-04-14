@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 
 import { PortableTextRenderer } from "@/components/sanity/portable-text";
 import { SanityImage } from "@/components/sanity/sanity-image";
-import { fetchSanity } from "@/lib/sanity/client";
+import { sanityFetch } from "@/lib/sanity/live";
 import { PAGE_BY_SLUG_QUERY } from "@/lib/sanity/queries";
 
 type DynamicPageDoc = {
@@ -17,7 +17,8 @@ type DynamicPageProps = {
 
 export default async function DynamicPage({ params }: DynamicPageProps) {
     const { slug, locale } = await params;
-    const page = await fetchSanity<DynamicPageDoc | null>(PAGE_BY_SLUG_QUERY(locale), { slug }, null);
+    const { data: pageRaw } = await sanityFetch({ query: PAGE_BY_SLUG_QUERY(locale), params: { slug } });
+    const page = pageRaw as DynamicPageDoc | null;
 
     if (!page) {
         notFound();
