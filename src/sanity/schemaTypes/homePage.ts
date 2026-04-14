@@ -93,6 +93,12 @@ export const homePageType = defineType({
       initialValue: true,
       title: "Show Featured Products",
     }),
+    defineField({
+      name: "showHowItWorks",
+      type: "boolean",
+      initialValue: true,
+      title: "Show How It Works Section",
+    }),
   ],
   preview: {
     prepare: () => ({ title: "Home Page" }),

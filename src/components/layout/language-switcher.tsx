@@ -28,7 +28,7 @@ export function LanguageSwitcher() {
                 <button
                     key={locale}
                     onClick={() => switchLocale(locale)}
-                    className={`min-h-[44px] min-w-[44px] flex items-center justify-center rounded-full px-3 py-2 text-sm font-medium transition border ${locale === currentLocale ? "bg-amber-600 text-white border-amber-600" : "bg-white text-amber-900 border-amber-900/20 hover:bg-amber-100"}`}
+                    className={`min-h-[44px] min-w-[44px] flex items-center justify-center rounded-full px-3 py-2 text-sm font-medium transition border ${locale === currentLocale ? "bg-emerald-700 text-white border-emerald-700" : "bg-white text-emerald-900 border-emerald-900/20 hover:bg-emerald-100"}`}
                     aria-current={locale === currentLocale ? "true" : undefined}
                 >
                     {locale.toUpperCase()}

@@ -46,7 +46,8 @@ const HOME_PAGE_QUERY = (locale = "en") => `*[_type == "homePage"][0]{
   showAboutSection,
   showCTASection,
   showTestimonials,
-  showFeaturedProducts
+  showFeaturedProducts,
+  showHowItWorks
 }`;
 
 const DONATION_SETTINGS_QUERY = `*[_type == "donationSettings"][0]`;

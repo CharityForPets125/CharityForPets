@@ -69,9 +69,9 @@ export async function Header({ locale: localeProp }: HeaderProps = {}) {
     ];
 
   return (
-    <header className="sticky top-0 z-30 border-b border-amber-950/10 bg-[var(--card)]/95 backdrop-blur" role="banner">
+    <header className="sticky top-0 z-30 border-b border-emerald-900/10 bg-[var(--card)]/95 backdrop-blur" role="banner">
       <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:px-6 sm:py-4 lg:px-8">
-        <Link href={localizePath("/", locale)} className="shrink-0 text-base font-bold tracking-tight text-amber-950 sm:text-lg">
+        <Link href={localizePath("/", locale)} className="shrink-0 text-base font-bold tracking-tight text-emerald-950 sm:text-lg">
           {settings?.logo ? (
             <SanityImage
               image={settings.logo}
@@ -93,25 +93,25 @@ export async function Header({ locale: localeProp }: HeaderProps = {}) {
             <Link
               key={`${link.label}-${link.href}`}
               href={localizePath(link.href, locale)}
-              className="min-h-[44px] flex items-center whitespace-nowrap rounded-full px-3 py-2 text-sm font-medium text-amber-900 transition hover:bg-amber-100"
+              className="min-h-[44px] flex items-center whitespace-nowrap rounded-full px-3 py-2 text-sm font-medium text-emerald-900 transition hover:bg-emerald-100"
             >
               {link.label}
             </Link>
           ))}
           {user ? (
             <>
-              <Link href={localizePath("/dashboard", locale)} className="min-h-[44px] flex items-center whitespace-nowrap rounded-full bg-amber-100 px-3 py-2 text-sm font-semibold text-amber-900 hover:bg-amber-200">
+              <Link href={localizePath("/dashboard", locale)} className="min-h-[44px] flex items-center whitespace-nowrap rounded-full bg-emerald-100 px-3 py-2 text-sm font-semibold text-emerald-900 hover:bg-emerald-200">
                 {t("nav.dashboard", "Dashboard")}
               </Link>
               <form action={signOutAction}>
                 <input type="hidden" name="locale" value={locale} />
-                <button type="submit" className="min-h-[44px] flex items-center whitespace-nowrap rounded-full px-3 py-2 text-sm font-medium text-amber-900 transition hover:bg-amber-100">
+                <button type="submit" className="min-h-[44px] flex items-center whitespace-nowrap rounded-full px-3 py-2 text-sm font-medium text-emerald-900 transition hover:bg-emerald-100">
                   {t("nav.signOut", "Sign Out")}
                 </button>
               </form>
             </>
           ) : (
-            <Link href={localizePath("/login", locale)} className="min-h-[44px] flex items-center whitespace-nowrap rounded-full bg-amber-600 px-4 py-2 text-sm font-semibold text-white hover:bg-amber-700">
+            <Link href={localizePath("/login", locale)} className="min-h-[44px] flex items-center whitespace-nowrap rounded-full bg-emerald-700 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-800">
               {t("nav.logIn", "Log In")}
             </Link>
           )}

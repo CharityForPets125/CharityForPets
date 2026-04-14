@@ -92,7 +92,7 @@ export function MobileMenu({ links, user, locale, labels }: MobileMenuProps) {
         aria-expanded={isOpen}
         aria-haspopup="menu"
         aria-controls="mobile-nav-menu"
-        className="min-h-[44px] min-w-[44px] rounded-full p-2 text-amber-900 transition hover:bg-amber-100 flex items-center justify-center"
+        className="min-h-[44px] min-w-[44px] rounded-full p-2 text-emerald-900 transition hover:bg-emerald-100 flex items-center justify-center"
       >
         {isOpen ? (
           <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
@@ -116,7 +116,7 @@ export function MobileMenu({ links, user, locale, labels }: MobileMenuProps) {
             id="mobile-nav-menu"
             role="dialog"
             aria-modal="true"
-            className="absolute right-0 top-full z-40 w-64 max-w-[calc(100vw-2rem)] rounded-2xl border border-amber-900/10 bg-white p-3 shadow-lg"
+            className="absolute right-0 top-full z-40 w-64 max-w-[calc(100vw-2rem)] rounded-2xl border border-emerald-900/10 bg-white p-3 shadow-lg"
           >
             <nav aria-label="Mobile" className="flex flex-col gap-1">
               {links.map((link) => (
@@ -124,18 +124,18 @@ export function MobileMenu({ links, user, locale, labels }: MobileMenuProps) {
                   key={`${link.label}-${link.href}`}
                   href={localizePath(link.href, locale)}
                   onClick={() => setIsOpen(false)}
-                  className="min-h-[44px] flex items-center rounded-xl px-3 py-2.5 text-base font-medium text-amber-900 transition hover:bg-amber-50"
+                  className="min-h-[44px] flex items-center rounded-xl px-3 py-2.5 text-base font-medium text-emerald-900 transition hover:bg-emerald-50"
                 >
                   {link.label}
                 </Link>
               ))}
-              <hr className="my-1 border-amber-900/10" />
+              <hr className="my-1 border-emerald-900/10" />
               {user ? (
                 <>
                   <Link
                     href={localizePath("/dashboard", locale)}
                     onClick={() => setIsOpen(false)}
-                    className="min-h-[44px] flex items-center rounded-xl bg-amber-100 px-3 py-2.5 text-base font-semibold text-amber-900 hover:bg-amber-200"
+                    className="min-h-[44px] flex items-center rounded-xl bg-emerald-100 px-3 py-2.5 text-base font-semibold text-emerald-900 hover:bg-emerald-200"
                   >
                     {labels.dashboard}
                   </Link>
@@ -144,7 +144,7 @@ export function MobileMenu({ links, user, locale, labels }: MobileMenuProps) {
                     <button
                       type="submit"
                       onClick={() => setIsOpen(false)}
-                      className="w-full min-h-[44px] rounded-xl px-3 py-2.5 text-left text-base font-medium text-amber-900 transition hover:bg-amber-50"
+                      className="w-full min-h-[44px] rounded-xl px-3 py-2.5 text-left text-base font-medium text-emerald-900 transition hover:bg-emerald-50"
                     >
                       {labels.signOut}
                     </button>
@@ -154,7 +154,7 @@ export function MobileMenu({ links, user, locale, labels }: MobileMenuProps) {
                 <Link
                   href={localizePath("/login", locale)}
                   onClick={() => setIsOpen(false)}
-                  className="min-h-[44px] flex items-center justify-center rounded-xl bg-amber-600 px-3 py-2.5 text-center text-base font-semibold text-white hover:bg-amber-700"
+                  className="min-h-[44px] flex items-center justify-center rounded-xl bg-emerald-700 px-3 py-2.5 text-center text-base font-semibold text-white hover:bg-emerald-800"
                 >
                   {labels.logIn}
                 </Link>
