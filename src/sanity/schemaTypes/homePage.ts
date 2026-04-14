@@ -16,6 +16,25 @@ export const homePageType = defineType({
     }),
     defineField({ name: "heroImage", type: "image", options: { hotspot: true } }),
     defineField({
+      name: "howItWorksImages",
+      title: "How It Works Images",
+      type: "array",
+      of: [defineArrayMember({ type: "image", options: { hotspot: true } })],
+      validation: (rule) => rule.max(3),
+    }),
+    defineField({
+      name: "impactSectionImage",
+      title: "Impact Section Image",
+      type: "image",
+      options: { hotspot: true },
+    }),
+    defineField({
+      name: "ctaSectionImage",
+      title: "CTA Section Image",
+      type: "image",
+      options: { hotspot: true },
+    }),
+    defineField({
       name: "impactCounters",
       type: "array",
       of: [

@@ -26,20 +26,23 @@ const NAVIGATION_QUERY = (locale = "en") => `*[_type == "navigation"][0]{
 }`;
 
 const HOME_PAGE_QUERY = (locale = "en") => `*[_type == "homePage"][0]{
-  "heroTitle": heroTitle.${locale},
-  "heroSubtitle": heroSubtitle.${locale},
+  "heroTitle": coalesce(heroTitle.${locale}, heroTitle.en, heroTitle),
+  "heroSubtitle": coalesce(heroSubtitle.${locale}, heroSubtitle.en, heroSubtitle),
   heroImage,
+  howItWorksImages,
+  impactSectionImage,
+  ctaSectionImage,
   impactCounters[]{
-    "label": label.${locale},
+    "label": coalesce(label.${locale}, label.en, label),
     value
   },
-  "aboutTitle": aboutTitle.${locale},
-  "aboutText": aboutText.${locale},
-  "ctaTitle": ctaTitle.${locale},
-  "ctaText": ctaText.${locale},
+  "aboutTitle": coalesce(aboutTitle.${locale}, aboutTitle.en, aboutTitle),
+  "aboutText": coalesce(aboutText.${locale}, aboutText.en, aboutText),
+  "ctaTitle": coalesce(ctaTitle.${locale}, ctaTitle.en, ctaTitle),
+  "ctaText": coalesce(ctaText.${locale}, ctaText.en, ctaText),
   testimonials[]{
-    "quote": quote.${locale},
-    "author": author.${locale}
+    "quote": coalesce(quote.${locale}, quote.en, quote),
+    "author": coalesce(author.${locale}, author.en, author)
   },
   showHeroSection,
   showImpactCounters,

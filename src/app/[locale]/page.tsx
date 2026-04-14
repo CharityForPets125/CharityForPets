@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 
 import { SanityImage } from "@/components/sanity/sanity-image";
 import { getString, type Locale } from "@/lib/i18n/strings";
@@ -20,6 +20,9 @@ type HomePageDoc = {
     heroTitle?: string;
     heroSubtitle?: string;
     heroImage?: unknown;
+    howItWorksImages?: unknown[];
+    impactSectionImage?: unknown;
+    ctaSectionImage?: unknown;
     impactCounters?: Counter[];
     ctaTitle?: string;
     ctaText?: string;
@@ -43,6 +46,10 @@ type HomePageProps = {
     params: Promise<{ locale: string }>;
 };
 
+function FallbackImageBlock({ className = "" }: { className?: string }) {
+    return <div className={`w-full bg-[linear-gradient(160deg,_#d1fae5_0%,_#ecfdf5_40%,_#fef9c3_100%)] ${className}`.trim()} />;
+}
+
 export default async function Home({ params }: HomePageProps) {
     const { locale: localeParam } = await params;
     const locale = normalizeLocale(localeParam);
@@ -62,10 +69,9 @@ export default async function Home({ params }: HomePageProps) {
     const counters = homePage?.impactCounters?.length ? homePage.impactCounters : defaultCounters;
 
     return (
-        <main>
-            {/* â”€â”€ Hero â”€â”€ */}
+        <main className="bg-[#f8fbf5]">
             {homePage?.showHeroSection !== false && (
-                <section className="relative isolate h-[480px] overflow-hidden sm:h-[560px]">
+                <section className="relative isolate min-h-[520px] overflow-hidden sm:min-h-[620px]">
                     {homePage?.heroImage ? (
                         <SanityImage
                             image={homePage.heroImage}
@@ -77,138 +83,166 @@ export default async function Home({ params }: HomePageProps) {
                             priority
                         />
                     ) : (
-                        <div className="absolute inset-0 bg-[linear-gradient(160deg,_#d1fae5_0%,_#ecfdf5_40%,_#fef9c3_100%)]" />
+                        <FallbackImageBlock className="absolute inset-0" />
                     )}
-                    {homePage?.heroImage != null && <div className="absolute inset-0 bg-emerald-950/45" />}
-                    <div className="relative z-10 flex h-full flex-col items-center justify-center px-4 text-center sm:px-6">
-                        <h1 className={`max-w-2xl font-heading text-4xl font-bold leading-tight sm:text-5xl lg:text-6xl ${homePage?.heroImage ? "text-white drop-shadow" : "text-emerald-950"}`}>
-                            {homePage?.heroTitle || t("home.secondLifeTitle", "Give your items a second life")}
-                        </h1>
-                        <p className={`mt-4 max-w-xl text-base sm:text-lg ${homePage?.heroImage ? "text-white/85" : "text-emerald-900/80"}`}>
-                            {homePage?.heroSubtitle || t("home.secondLifeSubtitle", "We give them a new purpose.")}
-                        </p>
-                        <div className="mt-8 flex flex-wrap justify-center gap-3">
-                            {donationSettings?.isDonationSectionVisible !== false && (
+                    <div className="absolute inset-0 bg-emerald-950/45" />
+                    <div className="relative z-10 mx-auto flex w-full max-w-6xl items-center px-4 py-16 sm:px-6 lg:px-8">
+                        <div className="max-w-2xl text-left">
+                            <h1 className="font-heading text-4xl font-bold leading-tight text-white drop-shadow sm:text-5xl lg:text-6xl">
+                                {homePage?.heroTitle || t("home.secondLifeTitle", "Give your items a second life")}
+                            </h1>
+                            <p className="mt-4 max-w-xl text-base text-white/90 sm:text-lg">
+                                {homePage?.heroSubtitle || t("home.secondLifeSubtitle", "We give them a new purpose.")}
+                            </p>
+                            <div className="mt-8 flex flex-wrap gap-3">
+                                {donationSettings?.isDonationSectionVisible !== false && (
+                                    <Link
+                                        href={localizePath("/donate", locale)}
+                                        className="inline-flex min-h-[44px] items-center justify-center rounded-xl bg-emerald-600 px-6 py-3 text-sm font-semibold text-white shadow transition hover:bg-emerald-700"
+                                    >
+                                        {t("home.donateItems", "Donate items")}
+                                    </Link>
+                                )}
                                 <Link
-                                    href={localizePath("/donate", locale)}
-                                    className="inline-flex min-h-[44px] items-center justify-center rounded-xl bg-emerald-600 px-6 py-3 text-sm font-semibold text-white shadow transition hover:bg-emerald-700"
+                                    href={localizePath("/about", locale)}
+                                    className="inline-flex min-h-[44px] items-center justify-center rounded-xl border border-white/40 bg-white/20 px-6 py-3 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/30"
                                 >
-                                    {t("home.donateItems", "Donate items")}
+                                    {t("home.learnMore", "Learn more")}
                                 </Link>
-                            )}
-                            <Link
-                                href={localizePath("/about", locale)}
-                                className={`inline-flex min-h-[44px] items-center justify-center rounded-xl px-6 py-3 text-sm font-semibold transition ${homePage?.heroImage ? "border border-white/40 bg-white/20 text-white backdrop-blur hover:bg-white/30" : "border border-emerald-900/15 bg-white text-emerald-900 hover:bg-emerald-50"}`}
-                            >
-                                {t("home.learnMore", "Learn more")}
-                            </Link>
+                            </div>
                         </div>
                     </div>
                 </section>
             )}
 
-            {/* â”€â”€ How It Works â”€â”€ */}
             {homePage?.showHowItWorks !== false && (
-                <section className="bg-[#f8fbf5] py-14 sm:py-20">
-                    <div className="mx-auto w-full max-w-5xl px-4 sm:px-6 lg:px-8">
-                        <h2 className="text-center font-heading text-2xl font-bold text-emerald-950 sm:text-3xl">
+                <section className="py-16 sm:py-20">
+                    <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
+                        <h2 className="text-center font-heading text-3xl font-bold text-emerald-950 sm:text-4xl">
                             {t("home.sectionHowItWorks", "How It Works")}
                         </h2>
-                        <div className="mt-10 grid grid-cols-1 gap-10 md:grid-cols-3 md:gap-6">
-                            <div className="flex flex-col items-center text-center">
-                                <div className="flex h-14 w-14 items-center justify-center rounded-full bg-emerald-100">
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-emerald-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M20 7H4a2 2 0 00-2 2v10a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2zM16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2" />
-                                    </svg>
-                                </div>
-                                <p className="mt-3 text-xs font-bold uppercase tracking-widest text-emerald-600">01</p>
-                                <h3 className="mt-2 text-lg font-semibold text-emerald-950">{t("home.step1Title", "Donate items")}</h3>
-                                <p className="mt-2 text-sm leading-relaxed text-emerald-900/70">{t("home.step1Body", "Bring or schedule pickup for clean, useful items.")}</p>
-                            </div>
-                            <div className="flex flex-col items-center text-center">
-                                <div className="flex h-14 w-14 items-center justify-center rounded-full bg-emerald-100">
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-emerald-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
-                                    </svg>
-                                </div>
-                                <p className="mt-3 text-xs font-bold uppercase tracking-widest text-emerald-600">02</p>
-                                <h3 className="mt-2 text-lg font-semibold text-emerald-950">{t("home.step2Title", "We pick them up")}</h3>
-                                <p className="mt-2 text-sm leading-relaxed text-emerald-900/70">{t("home.step2Body", "Our team sorts, prepares, and redirects value to shelters.")}</p>
-                            </div>
-                            <div className="flex flex-col items-center text-center">
-                                <div className="flex h-14 w-14 items-center justify-center rounded-full bg-emerald-100">
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-emerald-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                                    </svg>
-                                </div>
-                                <p className="mt-3 text-xs font-bold uppercase tracking-widest text-emerald-600">03</p>
-                                <h3 className="mt-2 text-lg font-semibold text-emerald-950">{t("home.step3Title", "We help shelters")}</h3>
-                                <p className="mt-2 text-sm leading-relaxed text-emerald-900/70">{t("home.step3Body", "Food, treatment, and support reach animals faster.")}</p>
-                            </div>
+                        <div className="mt-10 grid gap-6 md:grid-cols-3">
+                            {[0, 1, 2].map((index) => {
+                                const image = homePage?.howItWorksImages?.[index];
+                                const titleKey = `home.step${index + 1}Title`;
+                                const bodyKey = `home.step${index + 1}Body`;
+
+                                return (
+                                    <article key={index} className="overflow-hidden rounded-2xl border border-emerald-900/10 bg-white shadow-sm">
+                                        {image ? (
+                                            <SanityImage
+                                                image={image}
+                                                alt={t(titleKey, `Step ${index + 1}`)}
+                                                className="h-52 w-full object-cover"
+                                                width={960}
+                                                height={640}
+                                                sizes="(max-width: 768px) 100vw, 33vw"
+                                            />
+                                        ) : (
+                                            <FallbackImageBlock className="h-52" />
+                                        )}
+                                        <div className="p-5">
+                                            <p className="text-xs font-bold uppercase tracking-widest text-emerald-600">0{index + 1}</p>
+                                            <h3 className="mt-2 text-lg font-semibold text-emerald-950">{t(titleKey, "")}</h3>
+                                            <p className="mt-2 text-sm leading-relaxed text-emerald-900/75">{t(bodyKey, "")}</p>
+                                        </div>
+                                    </article>
+                                );
+                            })}
                         </div>
                     </div>
                 </section>
             )}
 
-            {/* â”€â”€ Impact Counters â”€â”€ */}
             {homePage?.showImpactCounters !== false && (
-                <section className="bg-emerald-800 py-14 sm:py-20">
-                    <div className="mx-auto w-full max-w-5xl px-4 sm:px-6 lg:px-8">
-                        <h2 className="text-center font-heading text-2xl font-bold text-white sm:text-3xl">
-                            {t("home.impactHeadline", "Our Community Impact")}
-                        </h2>
-                        <div className="mt-10 grid grid-cols-2 gap-8 sm:gap-10 md:grid-cols-4">
-                            {counters.map((counter, idx) => (
-                                <div key={`${counter.label}-${idx}`} className="text-center">
-                                    <p className="font-heading text-4xl font-extrabold text-white sm:text-5xl">
-                                        {(counter.value || 0).toLocaleString(locale)}
-                                    </p>
-                                    <p className="mt-2 text-sm font-medium text-emerald-200">
-                                        {counter.label || t("home.impactLabel", "Lives improved")}
-                                    </p>
-                                </div>
-                            ))}
+                <section className="bg-emerald-900 py-16 sm:py-20">
+                    <div className="mx-auto grid w-full max-w-6xl items-center gap-8 px-4 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:px-8">
+                        <div>
+                            <h2 className="font-heading text-3xl font-bold text-white sm:text-4xl">
+                                {t("home.impactHeadline", "Our Community Impact")}
+                            </h2>
+                            <div className="mt-8 grid grid-cols-2 gap-6">
+                                {counters.slice(0, 4).map((counter, idx) => (
+                                    <div key={`${counter.label}-${idx}`}>
+                                        <p className="font-heading text-4xl font-extrabold text-white sm:text-5xl">
+                                            {(counter.value || 0).toLocaleString(locale)}
+                                        </p>
+                                        <p className="mt-2 text-sm font-medium text-emerald-100/90">
+                                            {counter.label || t("home.impactLabel", "Lives improved")}
+                                        </p>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                        <div className="overflow-hidden rounded-3xl border border-white/20 bg-white/10 shadow-xl">
+                            {homePage?.impactSectionImage ? (
+                                <SanityImage
+                                    image={homePage.impactSectionImage}
+                                    alt={t("home.impactHeadline", "Our Community Impact")}
+                                    className="h-[360px] w-full object-cover"
+                                    width={960}
+                                    height={1200}
+                                    sizes="(max-width: 1024px) 100vw, 40vw"
+                                />
+                            ) : (
+                                <FallbackImageBlock className="h-[360px]" />
+                            )}
                         </div>
                     </div>
                 </section>
             )}
 
-            {/* â”€â”€ CTA â”€â”€ */}
             {homePage?.showCTASection !== false && (
-                <section className="bg-[#f8fbf5] py-16 sm:py-24">
-                    <div className="mx-auto w-full max-w-2xl px-4 text-center sm:px-6">
-                        <h2 className="font-heading text-3xl font-bold text-emerald-950 sm:text-4xl">
-                            {homePage?.ctaTitle || t("home.ctaNewTitle", "Start helping today")}
-                        </h2>
-                        <p className="mt-4 text-base text-emerald-900/75 sm:text-lg">
-                            {homePage?.ctaText || t("home.ctaNewText", "Every item donated, every purchase made \u2014 it all adds up to real change for animals in need.")}
-                        </p>
-                        <div className="mt-8 flex flex-wrap justify-center gap-4">
-                            {donationSettings?.isDonationSectionVisible !== false && (
-                                <Link
-                                    href={localizePath("/donate", locale)}
-                                    className="inline-flex min-h-[44px] items-center justify-center rounded-xl bg-emerald-700 px-8 py-3 text-sm font-semibold text-white shadow transition hover:bg-emerald-800"
-                                >
-                                    {t("home.startHelping", "Start helping")}
-                                </Link>
+                <section className="py-16 sm:py-24">
+                    <div className="mx-auto w-full max-w-5xl px-4 sm:px-6 lg:px-8">
+                        <div className="relative overflow-hidden rounded-3xl border border-emerald-900/10 bg-white shadow-sm">
+                            {homePage?.ctaSectionImage ? (
+                                <SanityImage
+                                    image={homePage.ctaSectionImage}
+                                    alt={homePage?.ctaTitle || t("home.ctaNewTitle", "Start helping today")}
+                                    className="absolute inset-0 h-full w-full object-cover"
+                                    width={1600}
+                                    height={900}
+                                    sizes="100vw"
+                                />
+                            ) : (
+                                <FallbackImageBlock className="absolute inset-0" />
                             )}
-                            {shopSettings?.isShopSectionVisible !== false && (
-                                <Link
-                                    href={localizePath("/shop", locale)}
-                                    className="inline-flex min-h-[44px] items-center justify-center rounded-xl border border-emerald-900/15 bg-white px-8 py-3 text-sm font-semibold text-emerald-900 transition hover:bg-emerald-50"
-                                >
-                                    {t("home.shopForACause", "Shop for a Cause")}
-                                </Link>
-                            )}
+                            <div className="absolute inset-0 bg-emerald-950/45" />
+                            <div className="relative z-10 p-8 text-left sm:p-12">
+                                <h2 className="font-heading text-3xl font-bold text-white sm:text-4xl">
+                                    {homePage?.ctaTitle || t("home.ctaNewTitle", "Start helping today")}
+                                </h2>
+                                <p className="mt-4 max-w-2xl text-base text-white/90 sm:text-lg">
+                                    {homePage?.ctaText || t("home.ctaNewText", "Every item donated, every purchase made - it all adds up to real change for animals in need.")}
+                                </p>
+                                <div className="mt-8 flex flex-wrap gap-4">
+                                    {donationSettings?.isDonationSectionVisible !== false && (
+                                        <Link
+                                            href={localizePath("/donate", locale)}
+                                            className="inline-flex min-h-[44px] items-center justify-center rounded-xl bg-emerald-600 px-8 py-3 text-sm font-semibold text-white transition hover:bg-emerald-700"
+                                        >
+                                            {t("home.startHelping", "Start helping")}
+                                        </Link>
+                                    )}
+                                    {shopSettings?.isShopSectionVisible !== false && (
+                                        <Link
+                                            href={localizePath("/shop", locale)}
+                                            className="inline-flex min-h-[44px] items-center justify-center rounded-xl border border-white/40 bg-white/20 px-8 py-3 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/30"
+                                        >
+                                            {t("home.shopForACause", "Shop for a Cause")}
+                                        </Link>
+                                    )}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </section>
             )}
 
-            {/* â”€â”€ Testimonials â”€â”€ */}
             {homePage?.showTestimonials !== false && homePage?.testimonials && homePage.testimonials.length > 0 && (
                 <section className="bg-white py-14 sm:py-20">
-                    <div className="mx-auto w-full max-w-5xl px-4 sm:px-6 lg:px-8">
+                    <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
                         <h2 className="text-center font-heading text-2xl font-bold text-emerald-950 sm:text-3xl">
                             {t("home.testimonials", "What people are saying")}
                         </h2>
@@ -220,7 +254,7 @@ export default async function Home({ params }: HomePageProps) {
                                     </blockquote>
                                     {testimonial.author && (
                                         <figcaption className="mt-4 text-sm font-semibold text-emerald-950">
-                                            &mdash; {testimonial.author}
+                                            - {testimonial.author}
                                         </figcaption>
                                     )}
                                 </figure>
@@ -232,4 +266,3 @@ export default async function Home({ params }: HomePageProps) {
         </main>
     );
 }
-
