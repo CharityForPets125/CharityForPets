@@ -22,7 +22,7 @@ export function PortableTextRenderer({ value }: Props) {
   }
 
   return (
-    <div className="prose prose-amber prose-sm max-w-none break-words sm:prose-base">
+    <div className="prose prose-emerald prose-sm max-w-none break-words sm:prose-base">
       <PortableText value={normalizedValue} />
     </div>
   );

@@ -1,4 +1,5 @@
-import Link from "next/link";
+﻿import Link from "next/link";
+import Image from "next/image";
 import { redirect } from "next/navigation";
 
 import { createSupabaseServerClient } from "@/lib/supabase/server";
@@ -37,9 +38,17 @@ export default async function LoginPage({ searchParams, params }: LoginPageProps
 
     return (
         <main className="mx-auto w-full max-w-xl px-4 py-12 sm:px-6 lg:px-8">
-            <h1 className="text-3xl font-bold tracking-tight text-amber-950 sm:text-4xl">{t("auth.logIn")}</h1>
-            <p className="mt-3 text-base text-amber-900/80">{t("auth.welcomeBack")}</p>
-            <div className="mt-8 rounded-3xl border border-amber-900/10 bg-white p-6 shadow-sm">
+            <div className="relative overflow-hidden rounded-3xl border border-emerald-900/10 bg-white shadow-sm">
+                <div className="absolute inset-0 bg-[linear-gradient(160deg,_#d1fae5_0%,_#ecfdf5_40%,_#fef9c3_100%)]" />
+                <div className="relative flex items-center justify-between gap-4 p-6 sm:p-8">
+                    <div>
+                        <h1 className="text-3xl font-bold tracking-tight text-emerald-950 sm:text-4xl">{t("auth.logIn")}</h1>
+                        <p className="mt-3 text-base text-emerald-900/80">{t("auth.welcomeBack")}</p>
+                    </div>
+                    <Image src="/logo.png" alt="Pet Charity" width={88} height={88} className="h-14 w-14 rounded-xl object-contain sm:h-16 sm:w-16" />
+                </div>
+            </div>
+            <div className="mt-8 rounded-3xl border border-emerald-900/10 bg-white p-6 shadow-sm">
                 {error && (
                     <p role="alert" className="mb-4 rounded-2xl bg-red-50 px-4 py-3 text-base text-red-700">{error}</p>
                 )}
@@ -47,7 +56,7 @@ export default async function LoginPage({ searchParams, params }: LoginPageProps
                     <p role="status" className="mb-4 rounded-2xl bg-emerald-50 px-4 py-3 text-base text-emerald-700">{message}</p>
                 )}
                 {!supabase ? (
-                    <p className="mb-4 rounded-2xl bg-amber-100 px-4 py-3 text-base text-amber-900">
+                    <p className="mb-4 rounded-2xl bg-emerald-100 px-4 py-3 text-base text-emerald-900">
                         {t("auth.supabaseWarning")}
                     </p>
                 ) : null}
@@ -55,7 +64,7 @@ export default async function LoginPage({ searchParams, params }: LoginPageProps
                 <form action={signInAction} className="space-y-6">
                     <input type="hidden" name="locale" value={locale} />
                     <div>
-                        <label className="block text-base font-semibold text-amber-950" htmlFor="email">
+                        <label className="block text-base font-semibold text-emerald-950" htmlFor="email">
                             {t("auth.email")}
                         </label>
                         <input
@@ -63,13 +72,13 @@ export default async function LoginPage({ searchParams, params }: LoginPageProps
                             name="email"
                             type="email"
                             required
-                            className="mt-2 min-h-[44px] w-full rounded-2xl border border-amber-900/20 px-4 py-3 text-base text-amber-950 outline-none ring-0 placeholder:text-amber-900/40 focus:border-amber-600"
+                            className="mt-2 min-h-[44px] w-full rounded-2xl border border-emerald-900/20 px-4 py-3 text-base text-emerald-950 outline-none ring-0 placeholder:text-emerald-900/40 focus:border-emerald-600"
                             placeholder="you@example.com"
                         />
                     </div>
 
                     <div>
-                        <label className="block text-base font-semibold text-amber-950" htmlFor="password">
+                        <label className="block text-base font-semibold text-emerald-950" htmlFor="password">
                             {t("auth.password")}
                         </label>
                         <input
@@ -77,7 +86,7 @@ export default async function LoginPage({ searchParams, params }: LoginPageProps
                             name="password"
                             type="password"
                             required
-                            className="mt-2 min-h-[44px] w-full rounded-2xl border border-amber-900/20 px-4 py-3 text-base text-amber-950 outline-none ring-0 placeholder:text-amber-900/40 focus:border-amber-600"
+                            className="mt-2 min-h-[44px] w-full rounded-2xl border border-emerald-900/20 px-4 py-3 text-base text-emerald-950 outline-none ring-0 placeholder:text-emerald-900/40 focus:border-emerald-600"
                             placeholder={t("auth.password_min")}
                         />
                     </div>
@@ -85,7 +94,7 @@ export default async function LoginPage({ searchParams, params }: LoginPageProps
                     <button
                         type="submit"
                         disabled={!supabase}
-                        className="w-full min-h-[44px] rounded-full bg-amber-600 px-5 py-3 text-base font-semibold text-white hover:bg-amber-700 disabled:cursor-not-allowed disabled:opacity-60"
+                        className="w-full min-h-[44px] rounded-full bg-emerald-700 px-5 py-3 text-base font-semibold text-white hover:bg-emerald-800 disabled:cursor-not-allowed disabled:opacity-60"
                     >
                         {t("auth.logIn")}
                     </button>
@@ -96,16 +105,17 @@ export default async function LoginPage({ searchParams, params }: LoginPageProps
                     <button
                         type="submit"
                         disabled={!supabase}
-                        className="w-full min-h-[44px] rounded-full border border-amber-900/20 bg-white px-5 py-3 text-base font-semibold text-amber-900 hover:bg-amber-50 disabled:cursor-not-allowed disabled:opacity-60"
+                        className="w-full min-h-[44px] rounded-full border border-emerald-900/20 bg-white px-5 py-3 text-base font-semibold text-emerald-900 hover:bg-emerald-50 disabled:cursor-not-allowed disabled:opacity-60"
                     >
                         {t("auth.continueGoogle")}
                     </button>
                 </form>
 
-                <Link href={localizePath("/signup", locale)} className="mt-4 inline-block text-base font-semibold text-amber-700 hover:underline">
+                <Link href={localizePath("/signup", locale)} className="mt-4 inline-block text-base font-semibold text-emerald-700 hover:underline">
                     {t("auth.needAccount")}
                 </Link>
             </div>
         </main>
     );
 }
+

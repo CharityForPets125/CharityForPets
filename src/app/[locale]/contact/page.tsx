@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import Image from "next/image";
 import { useParams } from "next/navigation";
 import { getString, type Locale } from "@/lib/i18n/strings";
 
@@ -40,8 +41,16 @@ export default function ContactPage() {
 
     return (
         <main className="mx-auto w-full max-w-4xl px-4 py-10 sm:px-6 lg:px-8">
-            <h1 className="text-3xl font-bold tracking-tight text-amber-950 sm:text-4xl">{t("contact.title")}</h1>
-            <p className="mt-3 text-base text-amber-900/80">{t("contact.formDescription")}</p>
+            <div className="relative overflow-hidden rounded-3xl border border-emerald-900/10 bg-white shadow-sm">
+                <div className="absolute inset-0 bg-[linear-gradient(160deg,_#d1fae5_0%,_#ecfdf5_40%,_#fef9c3_100%)]" />
+                <div className="relative flex items-center justify-between gap-4 p-6 sm:p-8">
+                    <div>
+                        <h1 className="text-3xl font-bold tracking-tight text-emerald-950 sm:text-4xl">{t("contact.title")}</h1>
+                        <p className="mt-3 text-base text-emerald-900/80">{t("contact.formDescription")}</p>
+                    </div>
+                    <Image src="/logo.png" alt="Pet Charity" width={96} height={96} className="h-16 w-16 rounded-xl object-contain sm:h-20 sm:w-20" />
+                </div>
+            </div>
 
             <div className="mt-8 rounded-3xl border border-amber-900/10 bg-white p-6 shadow-sm sm:p-8">
                 {status === "success" && (
@@ -66,13 +75,13 @@ export default function ContactPage() {
                             required
                             value={name}
                             onChange={(e) => setName(e.target.value)}
-                            className="mt-2 min-h-[44px] w-full rounded-2xl border border-amber-900/20 px-4 py-3 text-base text-amber-950 outline-none ring-0 placeholder:text-amber-900/40 focus:border-amber-600"
+                            className="mt-2 min-h-[44px] w-full rounded-2xl border border-emerald-900/20 px-4 py-3 text-base text-emerald-950 outline-none ring-0 placeholder:text-emerald-900/40 focus:border-emerald-600"
                             placeholder={t("contact.namePlaceholder")}
                         />
                     </div>
 
                     <div>
-                        <label htmlFor="contact-email" className="block text-base font-semibold text-amber-950">
+                        <label htmlFor="contact-email" className="block text-base font-semibold text-emerald-950">
                             {t("contact.email")}
                         </label>
                         <input
@@ -81,13 +90,13 @@ export default function ContactPage() {
                             required
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            className="mt-2 min-h-[44px] w-full rounded-2xl border border-amber-900/20 px-4 py-3 text-base text-amber-950 outline-none ring-0 placeholder:text-amber-900/40 focus:border-amber-600"
+                            className="mt-2 min-h-[44px] w-full rounded-2xl border border-emerald-900/20 px-4 py-3 text-base text-emerald-950 outline-none ring-0 placeholder:text-emerald-900/40 focus:border-emerald-600"
                             placeholder={t("contact.emailPlaceholder")}
                         />
                     </div>
 
                     <div>
-                        <label htmlFor="contact-message" className="block text-base font-semibold text-amber-950">
+                        <label htmlFor="contact-message" className="block text-base font-semibold text-emerald-950">
                             {t("contact.message")}
                         </label>
                         <textarea
@@ -96,7 +105,7 @@ export default function ContactPage() {
                             rows={5}
                             value={message}
                             onChange={(e) => setMessage(e.target.value)}
-                            className="mt-2 w-full rounded-2xl border border-amber-900/20 px-4 py-3 text-base text-amber-950 outline-none ring-0 placeholder:text-amber-900/40 focus:border-amber-600"
+                            className="mt-2 w-full rounded-2xl border border-emerald-900/20 px-4 py-3 text-base text-emerald-950 outline-none ring-0 placeholder:text-emerald-900/40 focus:border-emerald-600"
                             placeholder={t("contact.messagePlaceholder")}
                         />
                     </div>
@@ -104,7 +113,7 @@ export default function ContactPage() {
                     <button
                         type="submit"
                         disabled={status === "sending"}
-                        className="min-h-[44px] w-full rounded-full bg-amber-600 px-6 py-3 text-base font-semibold text-white transition hover:bg-amber-700 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
+                        className="min-h-[44px] w-full rounded-full bg-emerald-700 px-6 py-3 text-base font-semibold text-white transition hover:bg-emerald-800 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
                     >
                         {status === "sending" ? t("contact.sending") : t("contact.send")}
                     </button>

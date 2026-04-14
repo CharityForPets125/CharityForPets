@@ -1,4 +1,4 @@
-import { notFound } from "next/navigation";
+﻿import { notFound } from "next/navigation";
 
 import { fetchSanity } from "@/lib/sanity/client";
 import { PRODUCT_BY_SLUG_QUERY } from "@/lib/sanity/queries";
@@ -48,9 +48,9 @@ export default async function ProductPage({ params }: ProductPageProps) {
                     ) : null}
                 </div>
                 <div className="flex flex-col justify-center">
-                    <h1 className="text-3xl font-bold tracking-tight text-amber-950 sm:text-4xl">{product.name}</h1>
-                    <p className="mt-4 text-base text-amber-900/80 sm:text-lg">{product.description}</p>
-                    <p className="mt-6 text-2xl font-bold text-amber-950">${product.price}</p>
+                    <h1 className="text-3xl font-bold tracking-tight text-emerald-950 sm:text-4xl">{product.name}</h1>
+                    <p className="mt-4 text-base text-emerald-900/80 sm:text-lg">{product.description}</p>
+                    <p className="mt-6 text-2xl font-bold text-emerald-950">${product.price}</p>
                     <div className="mt-6 w-full">
                         <CheckoutButton
                             priceId={product.stripePriceId}
@@ -58,7 +58,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                             source="shop"
                             quantity={1}
                             cancelPath={`/shop/${slug}`}
-                            className="w-full min-h-[44px] rounded-full bg-amber-600 px-5 py-3 text-base font-semibold text-white hover:bg-amber-700 disabled:cursor-not-allowed disabled:opacity-60 sm:max-w-xs"
+                            className="w-full min-h-[44px] rounded-full bg-emerald-700 px-5 py-3 text-base font-semibold text-white hover:bg-emerald-800 disabled:cursor-not-allowed disabled:opacity-60 sm:max-w-xs"
                             disabledLabel={t("shop.buyNowUnavailable")}
                         >
                             {t("shop.buyNow")}
@@ -72,3 +72,4 @@ export default async function ProductPage({ params }: ProductPageProps) {
         </main>
     );
 }
+
