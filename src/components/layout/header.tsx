@@ -25,6 +25,7 @@ type NavigationDoc = {
 type SiteSettings = {
   siteName?: string;
   logo?: unknown;
+  brandDisplayMode?: "logo" | "text" | "both";
 };
 
 type HeaderProps = {
@@ -68,23 +69,27 @@ export async function Header({ locale: localeProp }: HeaderProps = {}) {
       { label: t("nav.contact", "Contact"), href: "/contact" },
     ];
 
+  const brandMode = settings?.brandDisplayMode ?? "both";
+  const showLogo = settings?.logo && brandMode !== "text";
+  const showText = brandMode !== "logo";
+  const brandText = settings?.siteName || "Pet Charity";
+
   return (
     <header className="sticky top-0 z-30 border-b border-emerald-900/10 bg-[var(--card)]/95 backdrop-blur" role="banner">
       <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:px-6 sm:py-4 lg:px-8">
-        <Link href={localizePath("/", locale)} className="shrink-0 text-base font-bold tracking-tight text-emerald-950 sm:text-lg">
-          {settings?.logo ? (
+        <Link href={localizePath("/", locale)} className="shrink-0 flex items-center gap-2 text-base font-bold tracking-tight text-emerald-950 sm:text-lg">
+          {showLogo ? (
             <SanityImage
               image={settings.logo}
-              alt={settings.siteName || "Pet Charity logo"}
+              alt={`${brandText} logo`}
               className="h-10 w-auto rounded-md object-contain sm:h-11"
               width={220}
               height={88}
               sizes="220px"
               priority
             />
-          ) : (
-            settings?.siteName || "Pet Charity"
-          )}
+          ) : null}
+          {showText ? <span>{brandText}</span> : null}
         </Link>
 
         {/* Desktop navigation */}

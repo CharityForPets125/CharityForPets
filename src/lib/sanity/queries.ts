@@ -9,6 +9,7 @@ export function localizeFieldOptional(field: string, locale = "en"): string {
 const SITE_SETTINGS_QUERY = (locale = "en") => `*[_type == "siteSettings"][0]{
   "siteName": siteName.${locale},
   logo,
+  brandDisplayMode,
   "footerText": footerText.${locale},
   contactEmail,
   socialLinks

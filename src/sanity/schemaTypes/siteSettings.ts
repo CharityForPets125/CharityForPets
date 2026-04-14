@@ -12,6 +12,20 @@ export const siteSettingsType = defineType({
     }),
     defineField({ name: "logo", type: "image", options: { hotspot: true } }),
     defineField({
+      name: "brandDisplayMode",
+      title: "Brand Display Mode",
+      type: "string",
+      initialValue: "both",
+      options: {
+        list: [
+          { title: "Logo only", value: "logo" },
+          { title: "Text only", value: "text" },
+          { title: "Logo + Text", value: "both" },
+        ],
+        layout: "radio",
+      },
+    }),
+    defineField({
       name: "footerText",
       type: "localizedText",
     }),

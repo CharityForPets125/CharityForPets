@@ -25,6 +25,7 @@ type SocialLink = {
 type SiteSettings = {
   siteName?: string;
   logo?: unknown;
+  brandDisplayMode?: "logo" | "text" | "both";
   footerText?: string;
   contactEmail?: string;
   socialLinks?: SocialLink[];
@@ -98,6 +99,10 @@ export async function Footer({ locale: localeProp }: FooterProps = {}) {
   ]);
 
   const links = navigation?.footerLinks || [];
+  const brandMode = settings?.brandDisplayMode ?? "both";
+  const showLogo = settings?.logo && brandMode !== "text";
+  const showText = brandMode !== "logo";
+  const brandText = settings?.siteName || "Pet Charity";
 
   return (
     <footer className="mt-14 border-t border-emerald-900/10 bg-emerald-50/50" role="contentinfo">
@@ -122,16 +127,19 @@ export async function Footer({ locale: localeProp }: FooterProps = {}) {
 
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div className="flex flex-col gap-3">
-            {settings?.logo != null && (
-              <div>
-                <SanityImage
-                  image={settings.logo}
-                  alt={settings.siteName || "Pet Charity logo"}
-                  className="h-10 w-auto rounded-md object-contain"
-                  width={220}
-                  height={88}
-                  sizes="220px"
-                />
+            {(showLogo || showText) && (
+              <div className="flex items-center gap-2">
+                {showLogo ? (
+                  <SanityImage
+                    image={settings.logo}
+                    alt={`${brandText} logo`}
+                    className="h-10 w-auto rounded-md object-contain"
+                    width={220}
+                    height={88}
+                    sizes="220px"
+                  />
+                ) : null}
+                {showText ? <span className="text-base font-semibold text-emerald-950">{brandText}</span> : null}
               </div>
             )}
             <p className="text-sm text-emerald-900/80">{settings?.footerText || `© Pet Charity. ${t("footer.allRightsReserved", "All rights reserved.")}`}</p>
