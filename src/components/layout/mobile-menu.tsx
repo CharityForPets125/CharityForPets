@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { signOutAction } from "@/app/auth/actions";
 import type { Locale } from "@/lib/i18n/strings";
@@ -19,14 +19,79 @@ type MobileMenuProps = {
 
 export function MobileMenu({ links, user, locale, labels }: MobileMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement | null>(null);
+  const triggerRef = useRef<HTMLButtonElement | null>(null);
+  const lastFocusedRef = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    if (!isOpen) {
+      return;
+    }
+
+    const triggerEl = triggerRef.current;
+    lastFocusedRef.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+
+    const focusableSelector = "a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex='-1'])";
+    const focusables = menuRef.current?.querySelectorAll<HTMLElement>(focusableSelector) ?? [];
+    const firstFocusable = focusables[0];
+    firstFocusable?.focus();
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (!menuRef.current) {
+        return;
+      }
+
+      if (event.key === "Escape") {
+        event.preventDefault();
+        setIsOpen(false);
+        return;
+      }
+
+      if (event.key !== "Tab") {
+        return;
+      }
+
+      const nodes = menuRef.current.querySelectorAll<HTMLElement>(focusableSelector);
+      const first = nodes[0];
+      const last = nodes[nodes.length - 1];
+
+      if (!first || !last) {
+        return;
+      }
+
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+        return;
+      }
+
+      if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      if (triggerEl) {
+        triggerEl.focus();
+      } else {
+        lastFocusedRef.current?.focus();
+      }
+    };
+  }, [isOpen]);
 
   return (
     <div className="sm:hidden relative">
       <button
+        ref={triggerRef}
         type="button"
         onClick={() => setIsOpen(!isOpen)}
         aria-label={isOpen ? "Close menu" : "Open menu"}
         aria-expanded={isOpen}
+        aria-haspopup="menu"
+        aria-controls="mobile-nav-menu"
         className="min-h-[44px] min-w-[44px] rounded-full p-2 text-amber-900 transition hover:bg-amber-100 flex items-center justify-center"
       >
         {isOpen ? (
@@ -46,7 +111,13 @@ export function MobileMenu({ links, user, locale, labels }: MobileMenuProps) {
           <div className="fixed inset-0 z-30" onClick={() => setIsOpen(false)} aria-hidden="true" />
 
           {/* Menu dropdown - positioned relative to button, constrained to viewport */}
-          <div className="absolute right-0 top-full z-40 w-64 max-w-[calc(100vw-2rem)] rounded-2xl border border-amber-900/10 bg-white p-3 shadow-lg">
+          <div
+            ref={menuRef}
+            id="mobile-nav-menu"
+            role="dialog"
+            aria-modal="true"
+            className="absolute right-0 top-full z-40 w-64 max-w-[calc(100vw-2rem)] rounded-2xl border border-amber-900/10 bg-white p-3 shadow-lg"
+          >
             <nav aria-label="Mobile" className="flex flex-col gap-1">
               {links.map((link) => (
                 <Link

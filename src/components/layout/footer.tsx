@@ -73,6 +73,9 @@ export async function Footer({ locale: localeProp }: FooterProps = {}) {
               image={settings.logo}
               alt={settings.siteName || "Pet Charity logo"}
               className="h-10 w-auto rounded-md object-contain"
+              width={220}
+              height={88}
+              sizes="220px"
             />
           </div>
         )}

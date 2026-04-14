@@ -27,10 +27,10 @@ export default async function DynamicPage({ params }: DynamicPageProps) {
         <main className="mx-auto w-full max-w-4xl px-4 py-10 sm:px-6 lg:px-8">
             <h1 className="text-3xl font-bold tracking-tight text-amber-950 sm:text-4xl">{page.title}</h1>
             {page.heroImage ? (
-                <SanityImage image={page.heroImage} alt={page.title || "Page image"} className="mt-6 rounded-3xl object-cover" />
+                <SanityImage image={page.heroImage} alt={page.title || "Page image"} className="mt-6 rounded-3xl object-cover" sizes="(max-width: 768px) 100vw, 1024px" />
             ) : null}
             <section className="mt-8">
-                <PortableTextRenderer value={page.body as never} />
+                <PortableTextRenderer value={page.body} />
             </section>
         </main>
     );

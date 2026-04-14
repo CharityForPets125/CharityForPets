@@ -41,6 +41,9 @@ export default async function ProductPage({ params }: ProductPageProps) {
                             alt={product.name || t("product.productImage")}
                             className="aspect-square w-full rounded-3xl object-cover sm:aspect-auto"
                             priority
+                            width={1000}
+                            height={1000}
+                            sizes="(max-width: 768px) 100vw, 50vw"
                         />
                     ) : null}
                 </div>
@@ -64,7 +67,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 </div>
             </div>
             <section className="mt-10">
-                <PortableTextRenderer value={product.body as never} />
+                <PortableTextRenderer value={product.body} />
             </section>
         </main>
     );

@@ -7,10 +7,21 @@ type Props = {
   alt: string;
   className?: string;
   priority?: boolean;
+  width?: number;
+  height?: number;
+  sizes?: string;
 };
 
-export function SanityImage({ image, alt, className, priority = false }: Props) {
-  const src = urlFor(image).width(1400).quality(80).auto("format").url();
+export function SanityImage({
+  image,
+  alt,
+  className,
+  priority = false,
+  width = 1400,
+  height = 900,
+  sizes = "(max-width: 768px) 100vw, 1400px",
+}: Props) {
+  const src = urlFor(image).width(width).quality(80).auto("format").url();
 
   if (!src) {
     return null;
@@ -20,8 +31,9 @@ export function SanityImage({ image, alt, className, priority = false }: Props) 
     <Image
       src={src}
       alt={alt}
-      width={1400}
-      height={900}
+      width={width}
+      height={height}
+      sizes={sizes}
       priority={priority}
       className={className}
     />

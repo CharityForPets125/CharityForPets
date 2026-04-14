@@ -77,6 +77,9 @@ export async function Header({ locale: localeProp }: HeaderProps = {}) {
               image={settings.logo}
               alt={settings.siteName || "Pet Charity logo"}
               className="h-10 w-auto rounded-md object-contain sm:h-11"
+              width={220}
+              height={88}
+              sizes="220px"
               priority
             />
           ) : (

@@ -53,6 +53,9 @@ export default async function ShopPage({ params }: ShopPageProps) {
                                 image={product.images[0]}
                                 alt={product.name || t("product.productImage")}
                                 className="h-44 w-full rounded-2xl object-cover sm:h-48 md:h-56"
+                                width={640}
+                                height={640}
+                                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                             />
                         ) : null}
                         <h2 className="mt-4 text-lg font-semibold text-amber-950 sm:text-xl">{product.name}</h2>

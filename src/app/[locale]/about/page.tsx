@@ -29,10 +29,11 @@ export default async function AboutPage({ params }: AboutPageProps) {
                     image={page.heroImage}
                     alt={page.title || t("about.aboutImage")}
                     className="mt-6 aspect-video w-full rounded-3xl object-cover sm:mt-8 sm:aspect-[16/9]"
+                    sizes="(max-width: 768px) 100vw, 1024px"
                 />
             ) : null}
             <section className="mt-6 sm:mt-8">
-                <PortableTextRenderer value={page?.body as never} />
+                <PortableTextRenderer value={page?.body} />
             </section>
         </main>
     );
