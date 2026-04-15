@@ -16,6 +16,13 @@ export const homePageType = defineType({
     }),
     defineField({ name: "heroImage", type: "image", options: { hotspot: true } }),
     defineField({
+      name: "heroImageMobile",
+      title: "Hero Image (Mobile)",
+      type: "image",
+      options: { hotspot: true },
+      description: "Optional mobile hero image. Falls back to the main hero image if not set.",
+    }),
+    defineField({
       name: "howItWorksImages",
       title: "How It Works Images",
       type: "array",

@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
 import { Barlow, DM_Sans } from "next/font/google";
+import { draftMode } from "next/headers";
+import { VisualEditing } from "next-sanity/visual-editing";
 
 import "../globals.css";
 import { fetchSanity } from "@/lib/sanity/client";
+import { SanityLive } from "@/lib/sanity/live";
 import { SITE_SETTINGS_QUERY } from "@/lib/sanity/queries";
 
 const bodyFont = DM_Sans({
@@ -69,6 +72,7 @@ export default async function LocaleLayout({
 }) {
   const { locale } = await params;
   const isCs = locale === "cs";
+  const { isEnabled: isDraftMode } = await draftMode();
 
   const bannerSettings = await fetchSanity<{
     pageBannerStartColor?: string;
@@ -107,6 +111,8 @@ export default async function LocaleLayout({
       </head>
       <body className="min-h-full flex flex-col bg-background text-foreground" style={bannerVars}>
         {children}
+        <SanityLive />
+        {isDraftMode && <VisualEditing />}
       </body>
     </html>
   );

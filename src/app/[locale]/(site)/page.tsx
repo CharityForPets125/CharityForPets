@@ -20,6 +20,7 @@ type HomePageDoc = {
     heroTitle?: string;
     heroSubtitle?: string;
     heroImage?: unknown;
+    heroImageMobile?: unknown;
     howItWorksImages?: unknown[];
     impactSectionImage?: unknown;
     ctaSectionImage?: unknown;
@@ -82,7 +83,28 @@ export default async function Home({ params }: HomePageProps) {
         <main className="bg-[#f8fbf5]">
             {homePage?.showHeroSection !== false && (
                 <section className="relative isolate min-h-[420px] overflow-hidden sm:min-h-[580px] lg:min-h-[680px]">
-                    {homePage?.heroImage ? (
+                    {homePage?.heroImageMobile ? (
+                        <>
+                            <SanityImage
+                                image={homePage.heroImageMobile}
+                                alt={homePage.heroTitle || "Hero image"}
+                                className="absolute inset-0 h-full w-full object-cover block sm:hidden"
+                                width={800}
+                                height={900}
+                                sizes="100vw"
+                                priority
+                            />
+                            <SanityImage
+                                image={homePage.heroImage}
+                                alt={homePage.heroTitle || "Hero image"}
+                                className="absolute inset-0 h-full w-full object-cover hidden sm:block"
+                                width={1920}
+                                height={1080}
+                                sizes="100vw"
+                                priority
+                            />
+                        </>
+                    ) : homePage?.heroImage ? (
                         <SanityImage
                             image={homePage.heroImage}
                             alt={homePage.heroTitle || "Hero image"}
@@ -102,7 +124,7 @@ export default async function Home({ params }: HomePageProps) {
                             opacity: (homePage?.heroOverlayOpacity ?? 45) / 100,
                         }}
                     />
-                    <div className="relative z-10 mx-auto flex w-full max-w-6xl items-center justify-center px-4 py-14 sm:justify-start sm:px-6 sm:py-20 lg:px-8">
+                    <div className="relative z-10 mx-auto flex w-full max-w-6xl items-center justify-center px-4 py-14 sm:px-6 sm:py-20 lg:px-8">
                         <div className="w-full max-w-2xl text-left">
                             <h1
                                 className="font-heading text-3xl font-bold leading-tight drop-shadow sm:text-5xl lg:text-6xl"
