@@ -35,6 +35,24 @@ export const siteSettingsType = defineType({
       type: "array",
       of: [{ type: "link" }],
     }),
+    defineField({
+      name: "pageBannerStartColor",
+      title: "Page Banner Gradient Start",
+      type: "string",
+      description: "CSS color for the banner gradient start (top-left). Default: #d1fae5",
+    }),
+    defineField({
+      name: "pageBannerMidColor",
+      title: "Page Banner Gradient Middle",
+      type: "string",
+      description: "CSS color for the banner gradient midpoint. Default: #ecfdf5",
+    }),
+    defineField({
+      name: "pageBannerEndColor",
+      title: "Page Banner Gradient End",
+      type: "string",
+      description: "CSS color for the banner gradient end (bottom-right). Default: #fef9c3",
+    }),
   ],
   preview: {
     prepare: () => ({ title: "Site Settings" }),

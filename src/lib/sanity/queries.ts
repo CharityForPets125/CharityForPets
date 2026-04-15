@@ -12,7 +12,10 @@ const SITE_SETTINGS_QUERY = (locale = "en") => `*[_type == "siteSettings"][0]{
   brandDisplayMode,
   "footerText": footerText.${locale},
   contactEmail,
-  socialLinks
+  socialLinks,
+  pageBannerStartColor,
+  pageBannerMidColor,
+  pageBannerEndColor
 }`;
 
 const NAVIGATION_QUERY = (locale = "en") => `*[_type == "navigation"][0]{
@@ -51,7 +54,14 @@ const HOME_PAGE_QUERY = (locale = "en") => `*[_type == "homePage"][0]{
   showCTASection,
   showTestimonials,
   showFeaturedProducts,
-  showHowItWorks
+  showHowItWorks,
+  heroTitleColor,
+  heroSubtitleColor,
+  sectionHeadingColor,
+  heroOverlayColor,
+  heroOverlayOpacity,
+  ctaOverlayColor,
+  ctaOverlayOpacity
 }`;
 
 const DONATION_SETTINGS_QUERY = `*[_type == "donationSettings"][0]`;

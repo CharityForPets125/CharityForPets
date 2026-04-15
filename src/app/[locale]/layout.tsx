@@ -1,16 +1,19 @@
 import type { Metadata } from "next";
-import { Baloo_2, Nunito } from "next/font/google";
+import { Barlow, DM_Sans } from "next/font/google";
 
 import "../globals.css";
+import { fetchSanity } from "@/lib/sanity/client";
+import { SITE_SETTINGS_QUERY } from "@/lib/sanity/queries";
 
-const bodyFont = Nunito({
+const bodyFont = DM_Sans({
   variable: "--font-body",
   subsets: ["latin"],
 });
 
-const headingFont = Baloo_2({
+const headingFont = Barlow({
   variable: "--font-display",
   subsets: ["latin"],
+  weight: ["700", "800"],
 });
 
 export function generateStaticParams() {
@@ -67,6 +70,18 @@ export default async function LocaleLayout({
   const { locale } = await params;
   const isCs = locale === "cs";
 
+  const bannerSettings = await fetchSanity<{
+    pageBannerStartColor?: string;
+    pageBannerMidColor?: string;
+    pageBannerEndColor?: string;
+  } | null>(SITE_SETTINGS_QUERY(locale), {}, null);
+
+  const bannerVars = {
+    "--page-banner-start": bannerSettings?.pageBannerStartColor || "#d1fae5",
+    "--page-banner-mid": bannerSettings?.pageBannerMidColor || "#ecfdf5",
+    "--page-banner-end": bannerSettings?.pageBannerEndColor || "#fef9c3",
+  } as React.CSSProperties;
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "NGO",
@@ -90,7 +105,7 @@ export default async function LocaleLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="min-h-full flex flex-col bg-background text-foreground">
+      <body className="min-h-full flex flex-col bg-background text-foreground" style={bannerVars}>
         {children}
       </body>
     </html>

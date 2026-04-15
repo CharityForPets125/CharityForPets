@@ -39,7 +39,7 @@ export default async function DonatePage({ params }: DonatePageProps) {
     return (
         <main className="mx-auto w-full max-w-4xl px-4 py-10 sm:px-6 lg:px-8">
             <div className="relative overflow-hidden rounded-3xl border border-emerald-900/10 bg-white shadow-sm">
-                <div className="absolute inset-0 bg-[linear-gradient(160deg,_#d1fae5_0%,_#ecfdf5_40%,_#fef9c3_100%)]" />
+                <div className="absolute inset-0" style={{ background: 'linear-gradient(160deg, var(--page-banner-start) 0%, var(--page-banner-mid) 40%, var(--page-banner-end) 100%)' }} />
                 <div className="relative flex items-center justify-between gap-4 p-6 sm:p-8">
                     <div>
                         <h1 className="text-3xl font-bold tracking-tight text-emerald-950 sm:text-4xl">{t("donate.title")}</h1>

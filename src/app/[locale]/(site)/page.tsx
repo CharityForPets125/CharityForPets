@@ -32,6 +32,13 @@ type HomePageDoc = {
     showCTASection?: boolean;
     showTestimonials?: boolean;
     showHowItWorks?: boolean;
+    heroTitleColor?: string;
+    heroSubtitleColor?: string;
+    sectionHeadingColor?: string;
+    heroOverlayColor?: string;
+    heroOverlayOpacity?: number;
+    ctaOverlayColor?: string;
+    ctaOverlayOpacity?: number;
 };
 
 type ShopSettings = {
@@ -88,13 +95,25 @@ export default async function Home({ params }: HomePageProps) {
                     ) : (
                         <FallbackImageBlock className="absolute inset-0" />
                     )}
-                    <div className="absolute inset-0 bg-emerald-950/45" />
+                    <div
+                        className="absolute inset-0"
+                        style={{
+                            backgroundColor: homePage?.heroOverlayColor || "#022c22",
+                            opacity: (homePage?.heroOverlayOpacity ?? 45) / 100,
+                        }}
+                    />
                     <div className="relative z-10 mx-auto flex w-full max-w-6xl items-center px-4 py-16 sm:px-6 lg:px-8">
                         <div className="max-w-2xl text-left">
-                            <h1 className="font-heading text-4xl font-bold leading-tight text-white drop-shadow sm:text-5xl lg:text-6xl">
+                            <h1
+                                className="font-heading text-4xl font-bold leading-tight drop-shadow sm:text-5xl lg:text-6xl"
+                                style={{ color: homePage?.heroTitleColor || "#ffffff" }}
+                            >
                                 {homePage?.heroTitle || t("home.secondLifeTitle", "Give your items a second life")}
                             </h1>
-                            <p className="mt-4 max-w-xl text-base text-white/90 sm:text-lg">
+                            <p
+                                className="mt-4 max-w-xl text-base sm:text-lg"
+                                style={{ color: homePage?.heroSubtitleColor || "rgba(255,255,255,0.9)" }}
+                            >
                                 {homePage?.heroSubtitle || t("home.secondLifeSubtitle", "We give them a new purpose.")}
                             </p>
                             <div className="mt-8 flex flex-wrap gap-3">
@@ -121,7 +140,10 @@ export default async function Home({ params }: HomePageProps) {
             {homePage?.showHowItWorks !== false && (
                 <section className="py-16 sm:py-20">
                     <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
-                        <h2 className="text-center font-heading text-3xl font-bold text-emerald-950 sm:text-4xl">
+                        <h2
+                            className="text-center font-heading text-3xl font-bold sm:text-4xl"
+                            style={{ color: homePage?.sectionHeadingColor || "#022c22" }}
+                        >
                             {t("home.sectionHowItWorks", "How It Works")}
                         </h2>
                         <div className="mt-10 grid gap-6 md:grid-cols-3">
@@ -211,7 +233,13 @@ export default async function Home({ params }: HomePageProps) {
                             ) : (
                                 <FallbackImageBlock className="absolute inset-0" />
                             )}
-                            <div className="absolute inset-0 bg-emerald-950/45" />
+                            <div
+                                className="absolute inset-0"
+                                style={{
+                                    backgroundColor: homePage?.ctaOverlayColor || "#022c22",
+                                    opacity: (homePage?.ctaOverlayOpacity ?? 45) / 100,
+                                }}
+                            />
                             <div className="relative z-10 p-8 text-left sm:p-12">
                                 <h2 className="font-heading text-3xl font-bold text-white sm:text-4xl">
                                     {homePage?.ctaTitle || t("home.ctaNewTitle", "Start helping today")}
@@ -246,7 +274,10 @@ export default async function Home({ params }: HomePageProps) {
             {homePage?.showTestimonials !== false && homePage?.testimonials && homePage.testimonials.length > 0 && (
                 <section className="bg-white py-14 sm:py-20">
                     <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
-                        <h2 className="text-center font-heading text-2xl font-bold text-emerald-950 sm:text-3xl">
+                        <h2
+                            className="text-center font-heading text-2xl font-bold sm:text-3xl"
+                            style={{ color: homePage?.sectionHeadingColor || "#022c22" }}
+                        >
                             {t("home.testimonials", "What people are saying")}
                         </h2>
                         <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
