@@ -130,6 +130,23 @@ export const homePageType = defineType({
       description: "CSS color applied to all section h2 headings (How It Works, Testimonials, etc.).",
     }),
     defineField({
+      name: "heroOverlayColor",
+      title: "Hero Overlay Color",
+      type: "string",
+      group: "design",
+      initialValue: "#022c22",
+      description: "Tint color over the hero image (e.g. #022c22). Default: dark green.",
+    }),
+    defineField({
+      name: "heroOverlayOpacity",
+      title: "Hero Overlay Opacity (0–100)",
+      type: "number",
+      group: "design",
+      initialValue: 40,
+      description: "How dark the hero tint is. 0 = transparent, 100 = fully opaque. Default: 40.",
+      validation: (rule) => rule.min(0).max(100),
+    }),
+    defineField({
       name: "heroTextAlign",
       title: "Hero Text Alignment",
       type: "string",

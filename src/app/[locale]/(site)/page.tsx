@@ -36,6 +36,8 @@ type HomePageDoc = {
     heroTitleColor?: string;
     heroSubtitleColor?: string;
     sectionHeadingColor?: string;
+    heroOverlayColor?: string;
+    heroOverlayOpacity?: number;
     heroTextAlign?: string;
     heroContentWidth?: string;
     heroHeightMobile?: number;
@@ -129,6 +131,13 @@ export default async function Home({ params }: HomePageProps) {
                         ) : (
                             <FallbackImageBlock className="absolute inset-0" />
                         )}
+                        <div
+                            className="absolute inset-0"
+                            style={{
+                                backgroundColor: homePage?.heroOverlayColor || "#022c22",
+                                opacity: (homePage?.heroOverlayOpacity ?? 40) / 100,
+                            }}
+                        />
                         <div className={`relative z-10 mx-auto flex w-full max-w-6xl items-center ${justifyClass} px-4 py-14 sm:px-6 sm:py-20 lg:px-8`}>
                             <div className={`w-full ${contentMaxWidth} ${textAlignClass}`}>
                                 <h1

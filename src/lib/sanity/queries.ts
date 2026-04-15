@@ -59,6 +59,8 @@ const HOME_PAGE_QUERY = (locale = "en") => `*[_type == "homePage"][0]{
   heroTitleColor,
   heroSubtitleColor,
   sectionHeadingColor,
+  heroOverlayColor,
+  heroOverlayOpacity,
   heroTextAlign,
   heroContentWidth,
   heroHeightMobile,
