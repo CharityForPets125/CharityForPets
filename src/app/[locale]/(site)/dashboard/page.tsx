@@ -115,10 +115,10 @@ export default async function DashboardPage({ params }: DashboardPageProps) {
         <main className="mx-auto w-full max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
             <div className="relative overflow-hidden rounded-3xl border border-emerald-900/10 bg-white shadow-sm">
                 <div className="absolute inset-0" style={{ background: 'linear-gradient(160deg, var(--page-banner-start) 0%, var(--page-banner-mid) 40%, var(--page-banner-end) 100%)' }} />
-                <div className="relative flex flex-col items-start justify-between gap-4 p-6 sm:flex-row sm:items-center sm:p-8">
+                <div className="relative flex flex-col items-start justify-between gap-4 p-5 sm:flex-row sm:items-center sm:p-8">
                     <div>
-                        <h1 className="text-3xl font-bold tracking-tight text-emerald-950 sm:text-4xl">{t("dashboard.yourDashboard")}</h1>
-                        <p className="mt-3 text-base text-emerald-900/80">{t("dashboard.signedInAs")} {user.email}</p>
+                        <h1 className="text-2xl font-bold tracking-tight text-emerald-950 sm:text-3xl lg:text-4xl">{t("dashboard.yourDashboard")}</h1>
+                        <p className="mt-2 text-sm text-emerald-900/80 sm:mt-3 sm:text-base">{t("dashboard.signedInAs")} {user.email}</p>
                     </div>
                     <div className="flex items-center gap-3">
                         <Image src="/logo.png" alt="Pet Charity" width={72} height={72} className="h-12 w-12 rounded-xl object-contain sm:h-14 sm:w-14" />
@@ -132,7 +132,7 @@ export default async function DashboardPage({ params }: DashboardPageProps) {
                 </div>
             </div>
 
-            <section className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
+            <section className="mt-6 grid grid-cols-2 gap-3 sm:mt-8 sm:gap-4 lg:grid-cols-5">
                 <article className="rounded-3xl border border-emerald-900/10 bg-white p-5 shadow-sm">
                     <p className="text-sm text-emerald-900/70">{t("dashboard.petsHelpedTotal")}</p>
                     <p className="mt-2 text-3xl font-bold text-emerald-950">{totalImpact}</p>

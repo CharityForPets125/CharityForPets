@@ -33,14 +33,14 @@ export default async function ProductPage({ params }: ProductPageProps) {
     }
 
     return (
-        <main className="mx-auto w-full max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
+        <main className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
             <div className="grid grid-cols-1 gap-6 sm:gap-8 md:grid-cols-2">
                 <div>
                     {product.images?.[0] ? (
                         <SanityImage
                             image={product.images[0]}
                             alt={product.name || t("product.productImage")}
-                            className="aspect-square w-full rounded-3xl object-cover sm:aspect-auto"
+                            className="aspect-square w-full rounded-2xl object-cover sm:rounded-3xl"
                             priority
                             width={1000}
                             height={1000}
@@ -49,17 +49,17 @@ export default async function ProductPage({ params }: ProductPageProps) {
                     ) : null}
                 </div>
                 <div className="flex flex-col justify-center">
-                    <h1 className="text-3xl font-bold tracking-tight text-emerald-950 sm:text-4xl">{product.name}</h1>
-                    <p className="mt-4 text-base text-emerald-900/80 sm:text-lg">{product.description}</p>
-                    <p className="mt-6 text-2xl font-bold text-emerald-950">${product.price}</p>
-                    <div className="mt-6 w-full">
+                    <h1 className="text-2xl font-bold tracking-tight text-emerald-950 sm:text-3xl lg:text-4xl">{product.name}</h1>
+                    <p className="mt-3 text-sm text-emerald-900/80 sm:mt-4 sm:text-base lg:text-lg">{product.description}</p>
+                    <p className="mt-4 text-xl font-bold text-emerald-950 sm:mt-6 sm:text-2xl">${product.price}</p>
+                    <div className="mt-5 sm:mt-6">
                         <CheckoutButton
                             priceId={product.stripePriceId}
                             mode="payment"
                             source="shop"
                             quantity={1}
                             cancelPath={`/shop/${slug}`}
-                            className="w-full min-h-[44px] rounded-full bg-emerald-700 px-5 py-3 text-base font-semibold text-white hover:bg-emerald-800 disabled:cursor-not-allowed disabled:opacity-60 sm:max-w-xs"
+                            className="w-full min-h-[48px] rounded-full bg-emerald-700 px-5 py-3 text-base font-semibold text-white hover:bg-emerald-800 disabled:cursor-not-allowed disabled:opacity-60 sm:max-w-xs"
                             disabledLabel={t("shop.buyNowUnavailable")}
                         >
                             {t("shop.buyNow")}
@@ -67,7 +67,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                     </div>
                 </div>
             </div>
-            <section className="mt-10">
+            <section className="mt-8 sm:mt-10">
                 <PortableTextRenderer value={product.body} />
             </section>
         </main>

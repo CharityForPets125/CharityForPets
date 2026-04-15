@@ -41,14 +41,14 @@ export default function ContactPage() {
 
     return (
         <main className="mx-auto w-full max-w-4xl px-4 py-10 sm:px-6 lg:px-8">
-            <div className="relative overflow-hidden rounded-3xl border border-emerald-900/10 bg-white shadow-sm">
+            <div className="relative overflow-hidden rounded-2xl border border-emerald-900/10 bg-white shadow-sm sm:rounded-3xl">
                 <div className="absolute inset-0" style={{ background: 'linear-gradient(160deg, var(--page-banner-start) 0%, var(--page-banner-mid) 40%, var(--page-banner-end) 100%)' }} />
-                <div className="relative flex items-center justify-between gap-4 p-6 sm:p-8">
+                <div className="relative flex items-center justify-between gap-4 p-5 sm:p-8">
                     <div>
-                        <h1 className="text-3xl font-bold tracking-tight text-emerald-950 sm:text-4xl">{t("contact.title")}</h1>
-                        <p className="mt-3 text-base text-emerald-900/80">{t("contact.formDescription")}</p>
+                        <h1 className="text-2xl font-bold tracking-tight text-emerald-950 sm:text-3xl lg:text-4xl">{t("contact.title")}</h1>
+                        <p className="mt-2 text-sm text-emerald-900/80 sm:mt-3 sm:text-base">{t("contact.formDescription")}</p>
                     </div>
-                    <Image src="/logo.png" alt="Pet Charity" width={96} height={96} className="h-16 w-16 rounded-xl object-contain sm:h-20 sm:w-20" />
+                    <Image src="/logo.png" alt="Pet Charity" width={96} height={96} className="h-14 w-14 shrink-0 rounded-xl object-contain sm:h-20 sm:w-20" />
                 </div>
             </div>
 

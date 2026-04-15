@@ -81,7 +81,7 @@ export default async function Home({ params }: HomePageProps) {
     return (
         <main className="bg-[#f8fbf5]">
             {homePage?.showHeroSection !== false && (
-                <section className="relative isolate min-h-[520px] overflow-hidden sm:min-h-[620px]">
+                <section className="relative isolate min-h-[420px] overflow-hidden sm:min-h-[580px] lg:min-h-[680px]">
                     {homePage?.heroImage ? (
                         <SanityImage
                             image={homePage.heroImage}
@@ -102,32 +102,32 @@ export default async function Home({ params }: HomePageProps) {
                             opacity: (homePage?.heroOverlayOpacity ?? 45) / 100,
                         }}
                     />
-                    <div className="relative z-10 mx-auto flex w-full max-w-6xl items-center px-4 py-16 sm:px-6 lg:px-8">
-                        <div className="max-w-2xl text-left">
+                    <div className="relative z-10 mx-auto flex w-full max-w-6xl items-center justify-center px-4 py-14 sm:justify-start sm:px-6 sm:py-20 lg:px-8">
+                        <div className="w-full max-w-2xl text-left">
                             <h1
-                                className="font-heading text-4xl font-bold leading-tight drop-shadow sm:text-5xl lg:text-6xl"
+                                className="font-heading text-3xl font-bold leading-tight drop-shadow sm:text-5xl lg:text-6xl"
                                 style={{ color: homePage?.heroTitleColor || "#ffffff" }}
                             >
                                 {homePage?.heroTitle || t("home.secondLifeTitle", "Give your items a second life")}
                             </h1>
                             <p
-                                className="mt-4 max-w-xl text-base sm:text-lg"
+                                className="mt-3 text-base sm:mt-4 sm:text-lg"
                                 style={{ color: homePage?.heroSubtitleColor || "rgba(255,255,255,0.9)" }}
                             >
                                 {homePage?.heroSubtitle || t("home.secondLifeSubtitle", "We give them a new purpose.")}
                             </p>
-                            <div className="mt-8 flex flex-wrap gap-3">
+                            <div className="mt-6 flex flex-col gap-3 sm:mt-8 sm:flex-row sm:flex-wrap">
                                 {donationSettings?.isDonationSectionVisible !== false && (
                                     <Link
                                         href={localizePath("/donate", locale)}
-                                        className="inline-flex min-h-[44px] items-center justify-center rounded-xl bg-emerald-600 px-6 py-3 text-sm font-semibold text-white shadow transition hover:bg-emerald-700"
+                                        className="inline-flex min-h-[48px] w-full items-center justify-center rounded-xl bg-emerald-600 px-6 py-3 text-sm font-semibold text-white shadow transition hover:bg-emerald-700 sm:w-auto"
                                     >
                                         {t("home.donateItems", "Donate items")}
                                     </Link>
                                 )}
                                 <Link
                                     href={localizePath("/about", locale)}
-                                    className="inline-flex min-h-[44px] items-center justify-center rounded-xl border border-white/40 bg-white/20 px-6 py-3 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/30"
+                                    className="inline-flex min-h-[48px] w-full items-center justify-center rounded-xl border border-white/40 bg-white/20 px-6 py-3 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/30 sm:w-auto"
                                 >
                                     {t("home.learnMore", "Learn more")}
                                 </Link>
@@ -138,15 +138,15 @@ export default async function Home({ params }: HomePageProps) {
             )}
 
             {homePage?.showHowItWorks !== false && (
-                <section className="py-16 sm:py-20">
+                <section className="py-12 sm:py-16 sm:py-20">
                     <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
                         <h2
-                            className="text-center font-heading text-3xl font-bold sm:text-4xl"
+                            className="text-center font-heading text-2xl font-bold sm:text-3xl sm:text-4xl"
                             style={{ color: homePage?.sectionHeadingColor || "#022c22" }}
                         >
                             {t("home.sectionHowItWorks", "How It Works")}
                         </h2>
-                        <div className="mt-10 grid gap-6 md:grid-cols-3">
+                        <div className="mt-8 grid gap-5 sm:mt-10 sm:grid-cols-2 md:grid-cols-3">
                             {[0, 1, 2].map((index) => {
                                 const image = homePage?.howItWorksImages?.[index];
                                 const titleKey = `home.step${index + 1}Title`;
@@ -180,19 +180,19 @@ export default async function Home({ params }: HomePageProps) {
             )}
 
             {homePage?.showImpactCounters !== false && (
-                <section className="bg-emerald-900 py-16 sm:py-20">
+                <section className="bg-emerald-900 py-12 sm:py-20">
                     <div className="mx-auto grid w-full max-w-6xl items-center gap-8 px-4 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:px-8">
                         <div>
-                            <h2 className="font-heading text-3xl font-bold text-white sm:text-4xl">
+                            <h2 className="font-heading text-2xl font-bold text-white sm:text-3xl lg:text-4xl">
                                 {t("home.impactHeadline", "Our Community Impact")}
                             </h2>
-                            <div className="mt-8 grid grid-cols-2 gap-6">
+                            <div className="mt-6 grid grid-cols-2 gap-4 sm:mt-8 sm:gap-6">
                                 {counters.slice(0, 4).map((counter, idx) => (
                                     <div key={`${counter.label}-${idx}`}>
-                                        <p className="font-heading text-4xl font-extrabold text-white sm:text-5xl">
+                                        <p className="font-heading text-3xl font-extrabold text-white sm:text-4xl lg:text-5xl">
                                             {(counter.value || 0).toLocaleString(locale)}
                                         </p>
-                                        <p className="mt-2 text-sm font-medium text-emerald-100/90">
+                                        <p className="mt-1 text-sm font-medium text-emerald-100/90 sm:mt-2">
                                             {counter.label || t("home.impactLabel", "Lives improved")}
                                         </p>
                                     </div>
@@ -240,18 +240,18 @@ export default async function Home({ params }: HomePageProps) {
                                     opacity: (homePage?.ctaOverlayOpacity ?? 45) / 100,
                                 }}
                             />
-                            <div className="relative z-10 p-8 text-left sm:p-12">
-                                <h2 className="font-heading text-3xl font-bold text-white sm:text-4xl">
+                            <div className="relative z-10 p-6 text-left sm:p-12">
+                                <h2 className="font-heading text-2xl font-bold text-white sm:text-3xl sm:text-4xl">
                                     {homePage?.ctaTitle || t("home.ctaNewTitle", "Start helping today")}
                                 </h2>
-                                <p className="mt-4 max-w-2xl text-base text-white/90 sm:text-lg">
+                                <p className="mt-3 max-w-2xl text-sm text-white/90 sm:mt-4 sm:text-lg">
                                     {homePage?.ctaText || t("home.ctaNewText", "Every item donated, every purchase made - it all adds up to real change for animals in need.")}
                                 </p>
-                                <div className="mt-8 flex flex-wrap gap-4">
+                                <div className="mt-6 flex flex-col gap-3 sm:mt-8 sm:flex-row sm:flex-wrap">
                                     {donationSettings?.isDonationSectionVisible !== false && (
                                         <Link
                                             href={localizePath("/donate", locale)}
-                                            className="inline-flex min-h-[44px] items-center justify-center rounded-xl bg-emerald-600 px-8 py-3 text-sm font-semibold text-white transition hover:bg-emerald-700"
+                                            className="inline-flex min-h-[48px] w-full items-center justify-center rounded-xl bg-emerald-600 px-8 py-3 text-sm font-semibold text-white transition hover:bg-emerald-700 sm:w-auto"
                                         >
                                             {t("home.startHelping", "Start helping")}
                                         </Link>
@@ -259,7 +259,7 @@ export default async function Home({ params }: HomePageProps) {
                                     {shopSettings?.isShopSectionVisible !== false && (
                                         <Link
                                             href={localizePath("/shop", locale)}
-                                            className="inline-flex min-h-[44px] items-center justify-center rounded-xl border border-white/40 bg-white/20 px-8 py-3 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/30"
+                                            className="inline-flex min-h-[48px] w-full items-center justify-center rounded-xl border border-white/40 bg-white/20 px-8 py-3 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/30 sm:w-auto"
                                         >
                                             {t("home.shopForACause", "Shop for a Cause")}
                                         </Link>

@@ -105,14 +105,16 @@ export async function Footer({ locale: localeProp }: FooterProps = {}) {
   const brandText = settings?.siteName || "Pet Charity";
 
   return (
-    <footer className="mt-14 border-t border-emerald-900/10 bg-emerald-50/50" role="contentinfo">
-      <div className="mx-auto flex w-full max-w-6xl flex-col gap-6 px-4 py-8 sm:px-6 lg:px-8">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <footer className="mt-10 border-t border-emerald-900/10 bg-emerald-50/50 sm:mt-14" role="contentinfo">
+      <div className="mx-auto flex w-full max-w-6xl flex-col gap-5 px-4 py-6 sm:gap-6 sm:px-6 sm:py-8 lg:px-8">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
           <div>
             <h3 className="text-sm font-semibold text-emerald-950">{t("newsletter.title", "Stay Updated")}</h3>
-            <p className="mt-1 text-xs text-emerald-900/70">{t("newsletter.description", "Subscribe for updates on our mission and how you can help.")}</p>
+            <p className="mt-1 max-w-xs text-xs text-emerald-900/70">{t("newsletter.description", "Subscribe for updates on our mission and how you can help.")}</p>
           </div>
-          <NewsletterSignup />
+          <div className="sm:shrink-0">
+            <NewsletterSignup />
+          </div>
         </div>
 
         {links.length > 0 && (

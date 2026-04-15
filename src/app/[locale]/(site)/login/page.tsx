@@ -37,15 +37,15 @@ export default async function LoginPage({ searchParams, params }: LoginPageProps
     const message = query.message;
 
     return (
-        <main className="mx-auto w-full max-w-xl px-4 py-12 sm:px-6 lg:px-8">
-            <div className="relative overflow-hidden rounded-3xl border border-emerald-900/10 bg-white shadow-sm">
+        <main className="mx-auto w-full max-w-xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
+            <div className="relative overflow-hidden rounded-2xl border border-emerald-900/10 bg-white shadow-sm sm:rounded-3xl">
                 <div className="absolute inset-0" style={{ background: 'linear-gradient(160deg, var(--page-banner-start) 0%, var(--page-banner-mid) 40%, var(--page-banner-end) 100%)' }} />
-                <div className="relative flex items-center justify-between gap-4 p-6 sm:p-8">
+                <div className="relative flex items-center justify-between gap-4 p-5 sm:p-8">
                     <div>
-                        <h1 className="text-3xl font-bold tracking-tight text-emerald-950 sm:text-4xl">{t("auth.logIn")}</h1>
-                        <p className="mt-3 text-base text-emerald-900/80">{t("auth.welcomeBack")}</p>
+                        <h1 className="text-2xl font-bold tracking-tight text-emerald-950 sm:text-3xl lg:text-4xl">{t("auth.logIn")}</h1>
+                        <p className="mt-2 text-sm text-emerald-900/80 sm:mt-3 sm:text-base">{t("auth.welcomeBack")}</p>
                     </div>
-                    <Image src="/logo.png" alt="Pet Charity" width={88} height={88} className="h-14 w-14 rounded-xl object-contain sm:h-16 sm:w-16" />
+                    <Image src="/logo.png" alt="Pet Charity" width={88} height={88} className="h-12 w-12 shrink-0 rounded-xl object-contain sm:h-16 sm:w-16" />
                 </div>
             </div>
             <div className="mt-8 rounded-3xl border border-emerald-900/10 bg-white p-6 shadow-sm">
