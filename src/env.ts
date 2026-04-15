@@ -13,6 +13,7 @@ const envSchema = z.object({
   RESEND_API_KEY: z.string().min(1).optional(),
   NEXT_PUBLIC_APP_URL: z.string().url().optional(),
   SANITY_REVALIDATE_SECRET: z.string().min(1).optional(),
+  CRON_SECRET: z.string().min(1).optional(),
   NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
 });
 
