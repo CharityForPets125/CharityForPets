@@ -34,6 +34,7 @@ const HOME_PAGE_QUERY = (locale = "en") => `*[_type == "homePage"][0]{
   "heroSubtitle": coalesce(heroSubtitle.${locale}, heroSubtitle.en, heroSubtitle),
   heroImage,
   heroImageMobile,
+  howItWorksImages,
   impactSectionImage,
   ctaSectionImage,
   impactCounters[]{
