@@ -7,6 +7,31 @@ import { env } from "@/env";
 import { localizePath, normalizeLocale } from "@/lib/i18n/routing";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
+type RateLimitRecord = { count: number; resetAt: number };
+const authRateLimitStore = new Map<string, RateLimitRecord>();
+
+function checkAuthRateLimit(scope: string, maxRequests: number, windowMs: number) {
+  const now = Date.now();
+  const key = `${scope}:${Date.now() % 1000000}`; // Simplified key for server actions
+
+  // Clean up expired entries
+  for (const [k, record] of authRateLimitStore.entries()) {
+    if (record.resetAt <= now) authRateLimitStore.delete(k);
+  }
+
+  const existing = authRateLimitStore.get(key);
+  if (!existing || existing.resetAt <= now) {
+    authRateLimitStore.set(key, { count: 1, resetAt: now + windowMs });
+    return true;
+  }
+
+  if (existing.count >= maxRequests) return false;
+
+  existing.count += 1;
+  authRateLimitStore.set(key, existing);
+  return true;
+}
+
 function getBaseUrl() {
   const fallback = env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
 
@@ -62,6 +87,11 @@ async function ensureProfile() {
 }
 
 export async function signInAction(formData: FormData) {
+  if (!checkAuthRateLimit("signin", 10, 60_000)) {
+    const locale = normalizeLocale(String(formData.get("locale") ?? "") || await getLocaleFromRequest());
+    redirect(`${localizePath("/login", locale)}?error=${encodeMessage("Too many login attempts. Please try again later.")}`);
+  }
+
   const locale = normalizeLocale(String(formData.get("locale") ?? "") || await getLocaleFromRequest());
   const email = String(formData.get("email") ?? "").trim();
   const password = String(formData.get("password") ?? "").trim();
@@ -87,6 +117,11 @@ export async function signInAction(formData: FormData) {
 }
 
 export async function signUpAction(formData: FormData) {
+  if (!checkAuthRateLimit("signup", 5, 60_000)) {
+    const locale = normalizeLocale(String(formData.get("locale") ?? "") || await getLocaleFromRequest());
+    redirect(`${localizePath("/signup", locale)}?error=${encodeMessage("Too many signup attempts. Please try again later.")}`);
+  }
+
   const locale = normalizeLocale(String(formData.get("locale") ?? "") || await getLocaleFromRequest());
   const email = String(formData.get("email") ?? "").trim();
   const password = String(formData.get("password") ?? "").trim();

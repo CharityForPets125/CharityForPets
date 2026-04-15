@@ -7,12 +7,12 @@ export const homePageType = defineType({
   fields: [
     defineField({
       name: "heroTitle",
-      type: "string",
+      type: "localizedString",
       validation: (rule) => rule.required(),
     }),
     defineField({
       name: "heroSubtitle",
-      type: "string",
+      type: "localizedString",
     }),
     defineField({ name: "heroImage", type: "image", options: { hotspot: true } }),
     defineField({
@@ -41,7 +41,7 @@ export const homePageType = defineType({
         defineArrayMember({
           type: "object",
           fields: [
-            defineField({ name: "label", type: "string", validation: (rule) => rule.required() }),
+            defineField({ name: "label", type: "localizedString", validation: (rule) => rule.required() }),
             defineField({ name: "value", type: "number", validation: (rule) => rule.required() }),
           ],
         }),
@@ -49,19 +49,19 @@ export const homePageType = defineType({
     }),
     defineField({
       name: "aboutTitle",
-      type: "string",
+      type: "localizedString",
     }),
     defineField({
       name: "aboutText",
-      type: "text",
+      type: "localizedText",
     }),
     defineField({
       name: "ctaTitle",
-      type: "string",
+      type: "localizedString",
     }),
     defineField({
       name: "ctaText",
-      type: "text",
+      type: "localizedText",
     }),
     defineField({
       name: "testimonials",
@@ -70,8 +70,8 @@ export const homePageType = defineType({
         defineArrayMember({
           type: "object",
           fields: [
-            defineField({ name: "quote", type: "text" }),
-            defineField({ name: "author", type: "string" }),
+            defineField({ name: "quote", type: "localizedText" }),
+            defineField({ name: "author", type: "localizedString" }),
           ],
         }),
       ],

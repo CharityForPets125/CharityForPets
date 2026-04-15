@@ -29,7 +29,7 @@ function getLocaleFromRequest(request: NextRequest): Locale {
   return DEFAULT_LOCALE;
 }
 
-export async function proxy(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
   // Skip static and API routes

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 
+import { env } from "@/env";
 import { localizePath, normalizeLocale } from "@/lib/i18n/routing";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { ensureStripeCustomerForUser } from "@/lib/stripe/customer";
@@ -32,15 +33,21 @@ function getLocaleFromRequest(request: Request) {
 
 export async function GET(request: Request) {
   const locale = getLocaleFromRequest(request);
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+  const appUrl = env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
   const supabase = await createSupabaseServerClient();
   if (!supabase) {
     return NextResponse.redirect(new URL(`${localizePath("/login", locale)}?error=Supabase auth is not configured`, appUrl));
   }
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  let user;
+  try {
+    const {
+      data: { user: fetchedUser },
+    } = await supabase.auth.getUser();
+    user = fetchedUser;
+  } catch {
+    return NextResponse.redirect(new URL(`${localizePath("/login", locale)}?error=Authentication service unavailable`, appUrl));
+  }
 
   if (!user) {
     return NextResponse.redirect(new URL(localizePath("/login", locale), appUrl));

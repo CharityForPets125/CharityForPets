@@ -46,13 +46,6 @@ try {
   console.error("⚠️  Could not read .env.local:", err.message);
 }
 
-// Debug: print what we found
-console.log("🔍 Debug env vars:");
-console.log("  PROJECT_ID:", process.env.NEXT_PUBLIC_SANITY_PROJECT_ID ? "SET" : "NOT SET");
-console.log("  DATASET:", process.env.NEXT_PUBLIC_SANITY_DATASET || "NOT SET");
-console.log("  API_TOKEN:", process.env.SANITY_API_TOKEN ? "SET" : "NOT SET");
-console.log("");
-
 const { createClient } = require("@sanity/client");
 
 // --- Configuration ---

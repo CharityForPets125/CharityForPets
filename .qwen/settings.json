@@ -8,7 +8,12 @@
       "Bash(taskkill *)",
       "Bash(npm *)",
       "Bash(node *)",
-      "Bash(findstr *)"
+      "Bash(findstr *)",
+      "Bash(next *)",
+      "Bash(move *)",
+      "Bash(timeout *)",
+      "Bash(curl *)",
+      "Bash(powershell *)"
     ]
   },
   "$version": 3

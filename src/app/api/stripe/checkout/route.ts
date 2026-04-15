@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { createHash } from "crypto";
 import { z } from "zod";
 
+import { env } from "@/env";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { ensureStripeCustomerForUser } from "@/lib/stripe/customer";
 import { getStripeServerClient } from "@/lib/stripe/server";
@@ -37,7 +38,7 @@ export async function POST(request: Request) {
     const { requestId, mode, priceId, source: rawSource, quantity: rawQuantity, successPath, cancelPath } = parsed.data;
     const quantity = rawQuantity || 1;
     const source = rawSource === "donation" ? "donation" : "shop";
-    const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+    const appUrl = env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
     const finalSuccessPath = successPath?.startsWith("/") ? successPath : "/success";
     const finalCancelPath = cancelPath?.startsWith("/") ? cancelPath : source === "donation" ? "/donate" : "/shop";
     const successType = source === "donation" ? "donation" : "order";
@@ -86,8 +87,9 @@ export async function POST(request: Request) {
     return NextResponse.json({ url: session.url });
   } catch (error) {
     console.error("Checkout error:", error);
+    const isStripeError = error instanceof Error && error.message.startsWith("Stripe:");
     return NextResponse.json(
-      { error: error instanceof Error ? error.message : "Unable to start checkout" },
+      { error: isStripeError ? "Payment service unavailable. Please try again." : "Unable to start checkout" },
       { status: 500 },
     );
   }

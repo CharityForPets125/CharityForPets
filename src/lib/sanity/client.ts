@@ -6,17 +6,24 @@ const hasSanityConfig = Boolean(
   env.NEXT_PUBLIC_SANITY_PROJECT_ID && env.NEXT_PUBLIC_SANITY_DATASET,
 );
 
-export const sanityClient = createClient({
+export const baseClient = createClient({
   projectId: env.NEXT_PUBLIC_SANITY_PROJECT_ID ?? "placeholder",
   dataset: env.NEXT_PUBLIC_SANITY_DATASET ?? "production",
   apiVersion: "2026-03-29",
   useCdn: true,
   token: env.SANITY_API_TOKEN,
-  stega: {
-    enabled: true,
-    studioUrl: "/en/studio",
-  },
 });
+
+export function sanityClient({ stega }: { stega?: boolean } = {}) {
+  return baseClient.withConfig({
+    stega: stega
+      ? {
+          enabled: true,
+          studioUrl: "/en/studio",
+        }
+      : { enabled: false },
+  });
+}
 
 export async function fetchSanity<T>(
   query: string,
@@ -28,7 +35,7 @@ export async function fetchSanity<T>(
   }
 
   try {
-    return await sanityClient.fetch<T>(query, params);
+    return await baseClient.fetch<T>(query, params);
   } catch (error) {
     console.error("Sanity query failed:", { query, error: error instanceof Error ? error.message : String(error) });
     return fallback;
