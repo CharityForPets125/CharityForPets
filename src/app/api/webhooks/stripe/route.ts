@@ -15,6 +15,7 @@ export async function POST(request: Request) {
   }
 
   const stripe = getStripeServerClient();
+  const body = await request.text();
   let event: Stripe.Event;
 
   try {
