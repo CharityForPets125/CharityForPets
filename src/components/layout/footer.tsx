@@ -6,7 +6,6 @@ import { fetchSanity } from "@/lib/sanity/client";
 import { NAVIGATION_QUERY, SITE_SETTINGS_QUERY } from "@/lib/sanity/queries";
 import { getString, type Locale } from "@/lib/i18n/strings";
 import { localizePath, normalizeLocale } from "@/lib/i18n/routing";
-import { NewsletterSignup } from "@/components/newsletter/newsletter-signup";
 
 type LinkItem = {
   label: string;
@@ -68,7 +67,6 @@ function SocialIcon({ href }: { href: string }) {
       </svg>
     );
   }
-  // Generic external link icon
   return (
     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8} aria-hidden="true">
       <path strokeLinecap="round" strokeLinejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
@@ -103,71 +101,107 @@ export async function Footer({ locale: localeProp }: FooterProps = {}) {
   const showLogo = settings?.logo && brandMode !== "text";
   const showText = brandMode !== "logo";
   const brandText = settings?.siteName || "Pet Charity";
+  const year = new Date().getFullYear();
 
   return (
-    <footer className="mt-10 border-t border-emerald-900/10 bg-emerald-50/50 sm:mt-14" role="contentinfo">
-      <div className="mx-auto flex w-full max-w-6xl flex-col gap-5 px-4 py-6 sm:gap-6 sm:px-6 sm:py-8 lg:px-8">
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
-          <div>
-            <h3 className="text-sm font-semibold text-emerald-950">{t("newsletter.title", "Stay Updated")}</h3>
-            <p className="mt-1 max-w-xs text-xs text-emerald-900/70">{t("newsletter.description", "Subscribe for updates on our mission and how you can help.")}</p>
+    <footer className="border-t border-emerald-900/10 bg-[#0a1f14]" role="contentinfo">
+      <div className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6 lg:px-8">
+
+        {/* Main grid */}
+        <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
+
+          {/* Brand column */}
+          <div className="lg:col-span-1">
+            <div className="flex items-center gap-2">
+              {showLogo && settings?.logo ? (
+                <SanityImage
+                  image={settings.logo}
+                  alt={`${brandText} logo`}
+                  className="h-9 w-auto rounded object-contain"
+                  width={180}
+                  height={72}
+                  sizes="180px"
+                />
+              ) : null}
+              {showText ? (
+                <span className="text-lg font-semibold text-white">{brandText}</span>
+              ) : null}
+            </div>
+            <p className="mt-4 text-sm leading-relaxed text-emerald-200/60">
+              {settings?.footerText || t("footer.tagline", "Helping stray animals through donations and charity shopping.")}
+            </p>
           </div>
-          <div className="sm:shrink-0">
-            <NewsletterSignup />
+
+          {/* Links column */}
+          {links.length > 0 && (
+            <div>
+              <h3 className="text-xs font-semibold uppercase tracking-widest text-emerald-400">
+                {t("footer.linksHeading", "Links")}
+              </h3>
+              <nav aria-label="Footer navigation" className="mt-4 flex flex-col gap-2.5">
+                {links.map((link) => (
+                  <Link
+                    key={`${link.label}-${link.href}`}
+                    href={localizePath(link.href, locale)}
+                    className="text-sm text-emerald-200/70 transition hover:text-white"
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </nav>
+            </div>
+          )}
+
+          {/* Contact column */}
+          <div>
+            <h3 className="text-xs font-semibold uppercase tracking-widest text-emerald-400">
+              {t("footer.contactHeading", "Contact")}
+            </h3>
+            <div className="mt-4 flex flex-col gap-2.5">
+              {settings?.contactEmail ? (
+                <a
+                  href={`mailto:${settings.contactEmail}`}
+                  className="text-sm text-emerald-200/70 transition hover:text-white"
+                >
+                  {settings.contactEmail}
+                </a>
+              ) : (
+                <span className="text-sm text-emerald-200/40">—</span>
+              )}
+            </div>
+          </div>
+
+          {/* Social column */}
+          <div>
+            <h3 className="text-xs font-semibold uppercase tracking-widest text-emerald-400">
+              {t("footer.socialHeading", "Follow Us")}
+            </h3>
+            {settings?.socialLinks && settings.socialLinks.length > 0 ? (
+              <div className="mt-4 flex flex-wrap gap-3">
+                {settings.socialLinks.map((social) => (
+                  <a
+                    key={social.href}
+                    href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={social.label}
+                    className="flex h-9 w-9 items-center justify-center rounded-lg border border-emerald-700/40 text-emerald-300/70 transition hover:border-emerald-500 hover:text-white"
+                  >
+                    <SocialIcon href={social.href} />
+                  </a>
+                ))}
+              </div>
+            ) : (
+              <span className="mt-4 block text-sm text-emerald-200/40">—</span>
+            )}
           </div>
         </div>
 
-        {links.length > 0 && (
-          <nav aria-label="Footer" className="flex flex-wrap gap-3">
-            {links.map((link) => (
-              <Link key={`${link.label}-${link.href}`} href={localizePath(link.href, locale)} className="text-sm text-emerald-900 hover:underline">
-                {link.label}
-              </Link>
-            ))}
-          </nav>
-        )}
-
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-          <div className="flex flex-col gap-3">
-            {(showLogo || showText) && (
-              <div className="flex items-center gap-2">
-                {showLogo ? (
-                  <SanityImage
-                    image={settings.logo}
-                    alt={`${brandText} logo`}
-                    className="h-10 w-auto rounded-md object-contain"
-                    width={220}
-                    height={88}
-                    sizes="220px"
-                  />
-                ) : null}
-                {showText ? <span className="text-base font-semibold text-emerald-950">{brandText}</span> : null}
-              </div>
-            )}
-            <p className="text-sm text-emerald-900/80">{settings?.footerText || `© Pet Charity. ${t("footer.allRightsReserved", "All rights reserved.")}`}</p>
-            {settings?.contactEmail && (
-              <a href={`mailto:${settings.contactEmail}`} className="text-sm text-emerald-700 hover:underline">
-                {settings.contactEmail}
-              </a>
-            )}
-          </div>
-
-          {settings?.socialLinks && settings.socialLinks.length > 0 && (
-            <div className="flex items-center gap-3">
-              {settings.socialLinks.map((social) => (
-                <a
-                  key={social.href}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={social.label}
-                  className="text-emerald-900/60 transition hover:text-emerald-800"
-                >
-                  <SocialIcon href={social.href} />
-                </a>
-              ))}
-            </div>
-          )}
+        {/* Bottom bar */}
+        <div className="mt-10 border-t border-emerald-700/20 pt-6">
+          <p className="text-xs text-emerald-200/40">
+            © {year} {brandText}. {t("footer.allRightsReserved", "All rights reserved.")}
+          </p>
         </div>
       </div>
     </footer>

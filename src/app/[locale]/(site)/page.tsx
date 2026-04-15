@@ -124,8 +124,8 @@ export default async function Home({ params }: HomePageProps) {
                             opacity: (homePage?.heroOverlayOpacity ?? 45) / 100,
                         }}
                     />
-                    <div className="relative z-10 mx-auto flex w-full max-w-6xl items-center justify-center px-4 py-14 sm:px-6 sm:py-20 lg:px-8">
-                        <div className="w-full max-w-2xl text-left">
+                    <div className="relative z-10 mx-auto flex w-full max-w-6xl items-center justify-start px-4 py-14 sm:px-6 sm:py-20 lg:px-8">
+                        <div className="w-full max-w-xl text-left">
                             <h1
                                 className="font-heading text-3xl font-bold leading-tight drop-shadow sm:text-5xl lg:text-6xl"
                                 style={{ color: homePage?.heroTitleColor || "#ffffff" }}
