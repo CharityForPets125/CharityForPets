@@ -1,11 +1,8 @@
-import { redirect } from "next/navigation";
+"use client";
 
-type StudioRedirectProps = {
-    params: Promise<{ tool?: string[] }>;
-};
+import { NextStudio } from "next-sanity/studio";
+import config from "../../../../sanity.config";
 
-export default async function StudioRedirectPage({ params }: StudioRedirectProps) {
-    const { tool = [] } = await params;
-    const suffix = tool.length ? `/${tool.join("/")}` : "";
-    redirect(`/en/studio${suffix}`);
+export default function StudioPage() {
+    return <NextStudio config={config} />;
 }

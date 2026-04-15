@@ -19,7 +19,7 @@ export function sanityClient({ stega }: { stega?: boolean } = {}) {
     stega: stega
       ? {
           enabled: true,
-          studioUrl: "/en/studio",
+          studioUrl: "/studio",
         }
       : { enabled: false },
   });

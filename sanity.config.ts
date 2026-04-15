@@ -60,6 +60,7 @@ const locations = {
 export default defineConfig({
   name: "default",
   title: "Pet Charity Studio",
+  basePath: "/studio",
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "",
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || "production",
   plugins: [
