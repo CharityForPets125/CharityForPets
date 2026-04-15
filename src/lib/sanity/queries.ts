@@ -58,10 +58,10 @@ const HOME_PAGE_QUERY = (locale = "en") => `*[_type == "homePage"][0]{
   heroTitleColor,
   heroSubtitleColor,
   sectionHeadingColor,
-  heroOverlayColor,
-  heroOverlayOpacity,
-  ctaOverlayColor,
-  ctaOverlayOpacity
+  heroTextAlign,
+  heroContentWidth,
+  heroHeightMobile,
+  heroHeightDesktop
 }`;
 
 const DONATION_SETTINGS_QUERY = `*[_type == "donationSettings"][0]`;
